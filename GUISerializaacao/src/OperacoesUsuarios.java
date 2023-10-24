@@ -1,4 +1,5 @@
 import java.util.List;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,6 +19,7 @@ public class OperacoesUsuarios {
         Usuario usuario = new Usuario(nome, idadeInt);
         usuarios.add(usuario);
         atualizarTabela();
+        
     }
 
     public void atualizarUsuario(int linhaSelecionada, String nome, String idade) {
@@ -52,3 +54,4 @@ public class OperacoesUsuarios {
         }
     }
 }
+
