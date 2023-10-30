@@ -11,7 +11,7 @@ public class MainFrame extends JFrame{
         abas.add("Cadastro Usuários", new CadastroUsuarios());
         
         //add abas de CadastroDeAgendamento
-        abas.add("Agendamento", new CadastroAgendamento());
+        abas.add("Agendamento", new CadastroAgendamento(null));
         add(abas);
     }
     public void run(){

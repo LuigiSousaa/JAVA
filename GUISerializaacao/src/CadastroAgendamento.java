@@ -27,11 +27,11 @@ public class CadastroAgendamento extends JPanel{
     private List<Agendamento> agendamentos = new ArrayList<>();
     private int linhaSelecionada = -1;
 
-    public CadastroAgendamento() {
-        File arquivo = new File("dados.txt");
-        List<Usuario> usuarios = new ArrayList<>();
-        if (arquivo.exists()) {
-            usuarios = Serializacao.deserializar("dados.txt");
+    public CadastroAgendamento(Usuario[] usuarios) {
+        File arquivoAgendamento = new File("dados.txt");
+        List<Agendamento> agendamentos = new ArrayList<>();
+        if (arquivoAgendamento.exists()) {
+            agendamentos = Serializacao.deserializarAgendamento("dados.txt");
         }
         tableModel = new DefaultTableModel();
         tableModel.addColumn("Data");
