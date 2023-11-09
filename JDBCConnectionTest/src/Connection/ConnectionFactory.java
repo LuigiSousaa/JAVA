@@ -28,15 +28,4 @@ public class ConnectionFactory {
             ex.printStackTrace();
         }
     }
-
-    public static void closeConnection(Connection connection, PreparedStatement stmt) {
-        try {
-            if (connection != null && stmt != null) {
-                connection.close();
-                stmt.close();
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-    }
 }
