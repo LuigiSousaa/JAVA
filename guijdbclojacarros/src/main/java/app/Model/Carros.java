@@ -8,16 +8,6 @@ public class Carros {
     private String placa;
     private String valor;
 
-    // Construtor
-    public Carros(String marca, String modelo, String ano, String placa, String valor) {
-        this.marca = marca;
-        this.modelo = modelo;
-        this.ano = ano;
-        this.placa = placa;
-        this.valor = valor;
-    }
-
-    // Get and Set
     public String getMarca() {
         return marca;
     }
@@ -58,5 +48,12 @@ public class Carros {
         this.valor = valor;
     }
 
-    
+    public Carros(String marca, String modelo, String ano, String placa, String valor) {
+        this.marca = marca;
+        this.modelo = modelo;
+        this.ano = ano;
+        this.placa = placa;
+        this.valor = valor;
+    }
+
 }

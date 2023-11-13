@@ -3,20 +3,21 @@ package app.Controller;
 import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import app.Model.Carros;
+
 import app.Connection.CarrosDAO;
+import app.Model.Carros;
 
 /**
  * CarrosControl
  */
 public class CarrosControl {
     // Atributos
-    private List<app.Model.Carros> carros;
+    private List<Carros> carros;
     private DefaultTableModel tableModel;
     private JTable table;
 
     // Construtor
-    public CarrosControl(List<app.Model.Carros> carros, DefaultTableModel tableModel, JTable table) {
+    public CarrosControl(List<Carros> carros, DefaultTableModel tableModel, JTable table) {
         this.carros = carros;
         this.tableModel = tableModel;
         this.table = table;
@@ -27,7 +28,7 @@ public class CarrosControl {
         tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
         carros = new CarrosDAO().listarTodos();
         // Obtém os carros atualizados do banco de dados
-        for (app.Model.Carros carro : carros) {
+        for (Carros carro : carros) {
             // Adiciona os dados de cada carro como uma nova linha na tabela Swing
             tableModel.addRow(new Object[] { carro.getMarca(), carro.getModelo(),
 
@@ -55,4 +56,8 @@ public class CarrosControl {
         // Chama o método de exclusão no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a exclusão
     }
+
+    public void limpar(String text, String text2, String text3, String text4, String text5) {
+    }
+
 }

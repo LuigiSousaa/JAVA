@@ -1,10 +1,18 @@
 package app.Connection;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import app.Model.Carros;
 
+/**
+ * CarrosDAO
+ */
 public class CarrosDAO {
     // atributo
     private Connection connection;
@@ -17,7 +25,7 @@ public class CarrosDAO {
 
     // criar Tabela
     public void criaTabela() {
-        String sql = "CREATE TABLE IF NOT EXISTS carros_lojacarros (MARCAVARCHAR(255),MODELO VARCHAR(255),ANO VARCHAR(255),PLACA VARCHAR(255) PRIMARY KEY, VALOR VARCHAR(255))";
+        String sql = "CREATE TABLE IF NOT EXISTS carros_lojacarros (MARCA VARCHAR(255),MODELO VARCHAR(255),ANO VARCHAR(255),PLACA VARCHAR(255) PRIMARY KEY, VALOR VARCHAR(255))";
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
             System.out.println("Tabela criada com sucesso.");
@@ -88,7 +96,7 @@ public class CarrosDAO {
     public void atualizar(String marca, String modelo, String ano, String placa, String valor) {
         PreparedStatement stmt = null;
         // Define a instrução SQL parametrizada para atualizar dados pela placa
-        String sql = "UPDATE carros_lojacarros SET marca = ?, modelo = ?, ano = ?, valor =? WHERE placa = ?";
+        String sql = "UPDATE carros_lojacarros SET marca = ?, modelo = ?, ano = ?, valor = ? WHERE placa = ?";
         try {
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, marca);
@@ -119,7 +127,7 @@ public class CarrosDAO {
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao apagar dados no banco de dados.", e);
         } finally {
+            ConnectionFactory.closeConnection(connection, stmt);
         }
-        ConnectionFactory.closeConnection(connection, stmt);
     }
 }
