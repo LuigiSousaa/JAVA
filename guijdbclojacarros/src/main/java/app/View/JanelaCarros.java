@@ -61,6 +61,10 @@ public class JanelaCarros extends JPanel {
         botoes.add(limpar = new JButton("Limpar"));
         botoes.add(vendido = new JButton("Vendido"));
         add(botoes);
+
+        boolean camposObrigatoriosVazios = carMarcaField.getText().isEmpty() ||
+                            carModeloField.getText().isEmpty() ||
+                            carPlacaField.getText().isEmpty();
         // tabela de carros
         JScrollPane jSPane = new JScrollPane();
         add(jSPane);
@@ -96,10 +100,6 @@ public class JanelaCarros extends JPanel {
                     String anoText = carAnoField.getText();
                     String valorText = carValorField.getText();
 
-                    boolean camposObrigatoriosVazios = carMarcaField.getText().isEmpty() ||
-                            carModeloField.getText().isEmpty() ||
-                            carPlacaField.getText().isEmpty();
-
                     if ((!anoText.isEmpty() && !valorText.isEmpty())) {
                         try {
                             int anoInt = Integer.parseInt(anoText); // Converte o valor de "ano" para um inteiro
@@ -111,10 +111,27 @@ public class JanelaCarros extends JPanel {
                                 carMarcaField.setText("");
                                 carModeloField.setText("");
                                 carPlacaField.setText("");
+                            }
+                            if (anoInt >= 2024 || anoInt < 1980) {
+                                JOptionPane.showMessageDialog(null,
+                                        "Por favor, digite um ano válido.", "Erro",
+                                        JOptionPane.ERROR_MESSAGE);
+                                carAnoField.setText("");
+                            }
+                            if (valorInt >= 7000) {
+                                JOptionPane.showMessageDialog(null,
+                                        "Por favor, digite um valor válido.", "Erro",
+                                        JOptionPane.ERROR_MESSAGE);
+                                carValorField.setText("");
                             } else {
                                 // Apenas cadastra se os campos obrigatórios estão preenchidos
                                 operacoes.cadastrar(carMarcaField.getText(), carModeloField.getText(),
                                         carAnoField.getText(), carPlacaField.getText(), carValorField.getText());
+                                carMarcaField.setText("");
+                                carModeloField.setText("");
+                                carAnoField.setText("");
+                                carPlacaField.setText("");
+                                carValorField.setText("");
                             }
                         } catch (NumberFormatException exception) {
                             if (exception.getMessage().contains("For input string: \"" + anoText + "\"")) {
@@ -128,21 +145,74 @@ public class JanelaCarros extends JPanel {
                             }
                         }
                     } else {
-                        JOptionPane.showMessageDialog(this, "Preencha pelo menos um campo (ano ou valor).", "Erro",
+                        JOptionPane.showMessageDialog(this, "Preencha todos os campos.", "Erro",
                                 JOptionPane.ERROR_MESSAGE);
                     }
                 });
 
+        editar.addActionListener(e -> {
+            String anoText = carAnoField.getText();
+            String valorText = carValorField.getText();
+
+            if ((!anoText.isEmpty() && !valorText.isEmpty())) {
+                try {
+                    int anoInt = Integer.parseInt(anoText); // Converte o valor de "ano" para um inteiro
+                    int valorInt = Integer.parseInt(valorText); // Converte o valor de "valor" para um inteiro
+
+                    if (camposObrigatoriosVazios) {
+                        JOptionPane.showMessageDialog(null,
+                                "Para efetuar o cadastro, preencha todos os campos.");
+                        carMarcaField.setText("");
+                        carModeloField.setText("");
+                        carPlacaField.setText("");
+                    }
+                    if (anoInt >= 2024 || anoInt < 1980) {
+                        JOptionPane.showMessageDialog(null,
+                                "Por favor, digite um ano válido.", "Erro",
+                                JOptionPane.ERROR_MESSAGE);
+                        carAnoField.setText("");
+                    }
+                    if (valorInt >= 7000) {
+                        JOptionPane.showMessageDialog(null,
+                                "Por favor, digite um valor válido.", "Erro",
+                                JOptionPane.ERROR_MESSAGE);
+                        carValorField.setText("");
+                    } else {
+                        // Apenas cadastra se os campos obrigatórios estão preenchidos
+                        operacoes.atualizar(carMarcaField.getText(), carModeloField.getText(), carAnoField.getText(),
+                                carPlacaField.getText(), carValorField.getText());
+                    }
+                } catch (NumberFormatException exception) {
+                    if (exception.getMessage().contains("For input string: \"" + anoText + "\"")) {
+                        JOptionPane.showMessageDialog(this, "Por favor, digite um ano válido 2.", "Erro",
+                                JOptionPane.ERROR_MESSAGE);
+                        carAnoField.setText("");
+                    } else if (exception.getMessage().contains("For input string: \"" + valorText + "\"")) {
+                        JOptionPane.showMessageDialog(this, "Por favor, digite um valor válido.", "Erro",
+                                JOptionPane.ERROR_MESSAGE);
+                        carValorField.setText("");
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Preencha todos os campos.", "Erro",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        });
         apagar.addActionListener(
                 e -> {
-                    operacoes.apagar(carPlacaField.getText());
+                    if (camposObrigatoriosVazios) {
+                        JOptionPane.showMessageDialog(null,
+                                "Selecione um carro para ser excluído.", "Erro",
+                                JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        operacoes.apagar(carPlacaField.getText());
 
-                    carMarcaField.setText("");
-                    carModeloField.setText("");
-                    carAnoField.setText("");
-                    carPlacaField.setText("");
-                    carValorField.setText("");
-
+                        carMarcaField.setText("");
+                        carModeloField.setText("");
+                        carAnoField.setText("");
+                        carPlacaField.setText("");
+                        carValorField.setText("");
+                    }
                 });
         limpar.addActionListener(
                 e -> {
