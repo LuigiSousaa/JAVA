@@ -19,11 +19,10 @@ import javax.swing.table.DefaultTableModel;
 import app.Controller.CarrosControl;
 import app.Connection.CarrosDAO;
 import app.Model.Carros;
-import javafx.event.ActionEvent;
 
 public class JanelaCarros extends JPanel {
     // Atributos
-    private JButton cadastrar, apagar, editar, limpar;
+    private JButton cadastrar, apagar, editar, limpar, vendido;
     private JTextField carMarcaField, carModeloField, carAnoField, carPlacaField,
             carValorField;
     private List<Carros> carros;
@@ -60,6 +59,7 @@ public class JanelaCarros extends JPanel {
         botoes.add(editar = new JButton("Editar"));
         botoes.add(apagar = new JButton("Apagar"));
         botoes.add(limpar = new JButton("Limpar"));
+        botoes.add(vendido = new JButton("Vendido"));
         add(botoes);
         // tabela de carros
         JScrollPane jSPane = new JScrollPane();
@@ -80,7 +80,7 @@ public class JanelaCarros extends JPanel {
                 if (linhaSelecionada != -1) {
                     carMarcaField.setText((String) table.getValueAt(linhaSelecionada, 0));
                     carModeloField.setText((String) table.getValueAt(linhaSelecionada, 1));
-                    carAnoField.setText((String) table.getValueAt(linhaSelecionada, 2));
+                    carAnoField.setText((String) table.getValueAt(linhaSelecionada, 4));
                     carPlacaField.setText((String) table.getValueAt(linhaSelecionada, 3));
                     carValorField.setText((String) table.getValueAt(linhaSelecionada, 4));
                 }
@@ -91,22 +91,46 @@ public class JanelaCarros extends JPanel {
         CarrosControl operacoes = new CarrosControl(carros, tableModel, table);
 
         cadastrar.addActionListener(
+
                 e -> {
-                    try {
-                        if () {
+                    String anoText = carAnoField.getText();
+                    String valorText = carValorField.getText();
 
+                    boolean camposObrigatoriosVazios = carMarcaField.getText().isEmpty() ||
+                            carModeloField.getText().isEmpty() ||
+                            carPlacaField.getText().isEmpty();
+
+                    if ((!anoText.isEmpty() && !valorText.isEmpty())) {
+                        try {
+                            int anoInt = Integer.parseInt(anoText); // Converte o valor de "ano" para um inteiro
+                            int valorInt = Integer.parseInt(valorText); // Converte o valor de "valor" para um inteiro
+
+                            if (camposObrigatoriosVazios) {
+                                JOptionPane.showMessageDialog(null,
+                                        "Para efetuar o cadastro, preencha todos os campos.");
+                                carMarcaField.setText("");
+                                carModeloField.setText("");
+                                carPlacaField.setText("");
+                            } else {
+                                // Apenas cadastra se os campos obrigatórios estão preenchidos
+                                operacoes.cadastrar(carMarcaField.getText(), carModeloField.getText(),
+                                        carAnoField.getText(), carPlacaField.getText(), carValorField.getText());
+                            }
+                        } catch (NumberFormatException exception) {
+                            if (exception.getMessage().contains("For input string: \"" + anoText + "\"")) {
+                                JOptionPane.showMessageDialog(this, "Por favor, digite um ano válido.", "Erro",
+                                        JOptionPane.ERROR_MESSAGE);
+                                carAnoField.setText("");
+                            } else if (exception.getMessage().contains("For input string: \"" + valorText + "\"")) {
+                                JOptionPane.showMessageDialog(this, "Por favor, digite um valor válido.", "Erro",
+                                        JOptionPane.ERROR_MESSAGE);
+                                carValorField.setText("");
+                            }
                         }
-                    } catch (Exception exx) {
-
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Preencha pelo menos um campo (ano ou valor).", "Erro",
+                                JOptionPane.ERROR_MESSAGE);
                     }
-                    operacoes.cadastrar(carMarcaField.getText(), carModeloField.getText(),
-                            carAnoField.getText(), carPlacaField.getText(), carValorField.getText());
-
-                    carMarcaField.setText("");
-                    carModeloField.setText("");
-                    carAnoField.setText("");
-                    carPlacaField.setText("");
-                    carValorField.setText("");
                 });
 
         apagar.addActionListener(
