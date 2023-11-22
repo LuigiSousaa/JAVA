@@ -1,8 +1,9 @@
 package app.View;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -61,10 +62,6 @@ public class JanelaCarros extends JPanel {
         botoes.add(limpar = new JButton("Limpar"));
         botoes.add(vendido = new JButton("Vendido"));
         add(botoes);
-
-        boolean camposObrigatoriosVazios = carMarcaField.getText().isEmpty() ||
-                            carModeloField.getText().isEmpty() ||
-                            carPlacaField.getText().isEmpty();
         // tabela de carros
         JScrollPane jSPane = new JScrollPane();
         add(jSPane);
@@ -84,7 +81,7 @@ public class JanelaCarros extends JPanel {
                 if (linhaSelecionada != -1) {
                     carMarcaField.setText((String) table.getValueAt(linhaSelecionada, 0));
                     carModeloField.setText((String) table.getValueAt(linhaSelecionada, 1));
-                    carAnoField.setText((String) table.getValueAt(linhaSelecionada, 4));
+                    carAnoField.setText((String) table.getValueAt(linhaSelecionada, 2));
                     carPlacaField.setText((String) table.getValueAt(linhaSelecionada, 3));
                     carValorField.setText((String) table.getValueAt(linhaSelecionada, 4));
                 }
@@ -99,6 +96,16 @@ public class JanelaCarros extends JPanel {
                 e -> {
                     String anoText = carAnoField.getText();
                     String valorText = carValorField.getText();
+                    String placaText = carPlacaField.getText();
+                    String padraoPlaca = "^[A-Z]{3}\\d{4}$";
+
+                    Pattern pattern = Pattern.compile(padraoPlaca);
+
+                    Matcher matcher = pattern.matcher(placaText);
+
+                    boolean camposObrigatoriosVazios = carMarcaField.getText().isEmpty() ||
+                            carModeloField.getText().isEmpty() ||
+                            carPlacaField.getText().isEmpty();
 
                     if ((!anoText.isEmpty() && !valorText.isEmpty())) {
                         try {
@@ -111,14 +118,19 @@ public class JanelaCarros extends JPanel {
                                 carMarcaField.setText("");
                                 carModeloField.setText("");
                                 carPlacaField.setText("");
-                            }
-                            if (anoInt >= 2024 || anoInt < 1980) {
+                            } else if (anoInt > 2023 || anoInt < 1980) {
                                 JOptionPane.showMessageDialog(null,
                                         "Por favor, digite um ano válido.", "Erro",
                                         JOptionPane.ERROR_MESSAGE);
                                 carAnoField.setText("");
-                            }
-                            if (valorInt >= 7000) {
+                            } else if (!matcher.matches()) {
+                                JOptionPane.showMessageDialog(null,
+                                        "Por favor, digite uma placa válida."
+                                                + "\n Exemplo: ABC1234",
+                                        "Erro",
+                                        JOptionPane.ERROR_MESSAGE);
+                                carPlacaField.setText("");
+                            } else if (valorInt < 7000) {
                                 JOptionPane.showMessageDialog(null,
                                         "Por favor, digite um valor válido.", "Erro",
                                         JOptionPane.ERROR_MESSAGE);
@@ -154,6 +166,10 @@ public class JanelaCarros extends JPanel {
             String anoText = carAnoField.getText();
             String valorText = carValorField.getText();
 
+            boolean camposObrigatoriosVazios = carMarcaField.getText().isEmpty() ||
+                    carModeloField.getText().isEmpty() ||
+                    carPlacaField.getText().isEmpty();
+
             if ((!anoText.isEmpty() && !valorText.isEmpty())) {
                 try {
                     int anoInt = Integer.parseInt(anoText); // Converte o valor de "ano" para um inteiro
@@ -161,34 +177,32 @@ public class JanelaCarros extends JPanel {
 
                     if (camposObrigatoriosVazios) {
                         JOptionPane.showMessageDialog(null,
-                                "Para efetuar o cadastro, preencha todos os campos.");
+                                "Para efetuar a edição, preencha todos os campos.");
                         carMarcaField.setText("");
                         carModeloField.setText("");
                         carPlacaField.setText("");
-                    }
-                    if (anoInt >= 2024 || anoInt < 1980) {
+                    } else if (anoInt > 2023 || anoInt < 1960) {
                         JOptionPane.showMessageDialog(null,
                                 "Por favor, digite um ano válido.", "Erro",
                                 JOptionPane.ERROR_MESSAGE);
                         carAnoField.setText("");
-                    }
-                    if (valorInt >= 7000) {
+                    } else if (valorInt < 7000) {
                         JOptionPane.showMessageDialog(null,
                                 "Por favor, digite um valor válido.", "Erro",
                                 JOptionPane.ERROR_MESSAGE);
                         carValorField.setText("");
                     } else {
-                        // Apenas cadastra se os campos obrigatórios estão preenchidos
+                        // Apenas atualiza se os campos obrigatórios estão preenchidos
                         operacoes.atualizar(carMarcaField.getText(), carModeloField.getText(), carAnoField.getText(),
                                 carPlacaField.getText(), carValorField.getText());
                     }
                 } catch (NumberFormatException exception) {
                     if (exception.getMessage().contains("For input string: \"" + anoText + "\"")) {
-                        JOptionPane.showMessageDialog(this, "Por favor, digite um ano válido 2.", "Erro",
+                        JOptionPane.showMessageDialog(this, "Por favor, digite um ano válido.", "Erro",
                                 JOptionPane.ERROR_MESSAGE);
                         carAnoField.setText("");
                     } else if (exception.getMessage().contains("For input string: \"" + valorText + "\"")) {
-                        JOptionPane.showMessageDialog(this, "Por favor, digite um valor válido.", "Erro",
+                        JOptionPane.showMessageDialog(this, "Por favor, digite um valor válido2.", "Erro",
                                 JOptionPane.ERROR_MESSAGE);
                         carValorField.setText("");
                     }
@@ -198,8 +212,12 @@ public class JanelaCarros extends JPanel {
                         JOptionPane.ERROR_MESSAGE);
             }
         });
+
         apagar.addActionListener(
                 e -> {
+                    boolean camposObrigatoriosVazios = carMarcaField.getText().isEmpty() ||
+                            carModeloField.getText().isEmpty() ||
+                            carPlacaField.getText().isEmpty();
                     if (camposObrigatoriosVazios) {
                         JOptionPane.showMessageDialog(null,
                                 "Selecione um carro para ser excluído.", "Erro",
@@ -229,6 +247,7 @@ public class JanelaCarros extends JPanel {
         );
     }
 
+    // Métodos de Atualizar tabela de carros
     private void atualizarTabela() {
         tableModel.setRowCount(0);
         carros = new CarrosDAO().listarTodos();
@@ -241,5 +260,3 @@ public class JanelaCarros extends JPanel {
     }
 
 }
-
-// Métodos de Atualizar tabela
