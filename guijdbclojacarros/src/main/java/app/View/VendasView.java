@@ -19,7 +19,6 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import app.Connection.CarrosDAO;
-import app.View.JanelaCarros;
 import app.Connection.ClientesDAO;
 import app.Connection.VendasDAO;
 import app.Controller.VendasControl;
@@ -29,7 +28,7 @@ import app.Model.Vendas;
 
 public class VendasView extends JPanel {
     // Atributos
-    private JButton vender, apagar, limpar;
+    private JButton vender, apagar, limpar, atualizar;
     private JTextField vendaMarcaField, vendaModeloField, vendaValorField, vendaPlacaField, vendaClienteField,
             vendaDataHoraField;
     private JTable table;
@@ -98,6 +97,7 @@ public class VendasView extends JPanel {
         botoes.add(vender = new JButton("Vender"));
         botoes.add(apagar = new JButton("Salvar Exclusão"));
         botoes.add(limpar = new JButton("Limpar"));
+        botoes.add(atualizar = new JButton("Atualizar"));
         add(botoes);
 
         // tabela de carros
@@ -130,8 +130,6 @@ public class VendasView extends JPanel {
         });
 
         VendasControl operacoes = new VendasControl(vendas, tableModel, table);
-        // Configura o metodo "cadastrar" do objeto operacoes com valores dos campos de
-        // entrada
 
         carrosComboBox.addActionListener(new ActionListener() {
             @Override
@@ -150,10 +148,6 @@ public class VendasView extends JPanel {
                     vendaValorField.setText(String.valueOf(carroSelecionado.getValor())); // Se for numérico
                     vendaPlacaField.setText(carroSelecionado.getPlaca());
 
-                    // Aqui você define os outros campos de acordo com as informações do carro
-                    // selecionado
-                    // vendaClienteField.setText(...);
-                    // vendaDataHoraField.setText(...);
                 } else {
                     vendaMarcaField.setText("");
                     vendaModeloField.setText("");
@@ -276,15 +270,21 @@ public class VendasView extends JPanel {
 
             }
         });
-
+        // atualizar.addActionListener(e->{
+        //      tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
+        // vendas = new VendasDAO().listarTodos();
+        // for (Vendas venda : vendas) {
+        //     // Adiciona os dados de cada carro como uma nova linha na tabela Swing
+        //     tableModel.addRow(new Object[] { venda.getMarca(), venda.getModelo(),
+        //             venda.getPlaca(), venda.getCliente(), venda.getValor(), venda.getDataHora() });
+        // }
+        // });
     }
 
-    // Métodos (Atualizar Tabela)
     // Método para atualizar a tabela de exibição com dados do banco de dados
     private void atualizarTabela() {
         tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
         vendas = new VendasDAO().listarTodos();
-        // Obtém os carros atualizados do banco de dados
         for (Vendas venda : vendas) {
             // Adiciona os dados de cada carro como uma nova linha na tabela Swing
             tableModel.addRow(new Object[] { venda.getMarca(), venda.getModelo(),

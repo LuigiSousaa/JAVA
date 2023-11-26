@@ -69,8 +69,6 @@ public class VendasControl {
     public void apagarCarro(String placa) {
         new VendasDAO().apagarCarro(placa);
         try {
-            // Substitua essas linhas com a lógica específica do seu outro banco de dados
-            // Aqui, estou apenas exibindo uma mensagem simulando a exclusão
             JOptionPane.showMessageDialog(null, "Carro com placa " + placa + " não está mais diponível para compra",
                     "Exclusão de Carro", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
