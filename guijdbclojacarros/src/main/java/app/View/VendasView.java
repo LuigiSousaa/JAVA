@@ -28,7 +28,7 @@ import app.Model.Vendas;
 
 public class VendasView extends JPanel {
     // Atributos
-    private JButton vender, apagar, limpar, atualizar;
+    private JButton vender, apagar, limpar;
     private JTextField vendaMarcaField, vendaModeloField, vendaValorField, vendaPlacaField, vendaClienteField,
             vendaDataHoraField;
     private JTable table;
@@ -97,7 +97,6 @@ public class VendasView extends JPanel {
         botoes.add(vender = new JButton("Vender"));
         botoes.add(apagar = new JButton("Salvar Exclusão"));
         botoes.add(limpar = new JButton("Limpar"));
-        botoes.add(atualizar = new JButton("Atualizar"));
         add(botoes);
 
         // tabela de carros
@@ -130,6 +129,8 @@ public class VendasView extends JPanel {
         });
 
         VendasControl operacoes = new VendasControl(vendas, tableModel, table);
+        // Configura o metodo "cadastrar" do objeto operacoes com valores dos campos de
+        // entrada
 
         carrosComboBox.addActionListener(new ActionListener() {
             @Override
@@ -145,9 +146,11 @@ public class VendasView extends JPanel {
                     // Define os valores nos campos de texto com as informações do carro selecionado
                     vendaMarcaField.setText(carroSelecionado.getMarca());
                     vendaModeloField.setText(carroSelecionado.getModelo());
-                    vendaValorField.setText(String.valueOf(carroSelecionado.getValor())); // Se for numérico
+                    vendaValorField.setText(carroSelecionado.getValor()); // Se for numérico
                     vendaPlacaField.setText(carroSelecionado.getPlaca());
 
+                    // Aqui você define os outros campos de acordo com as informações do carro
+                    // selecionado
                 } else {
                     vendaMarcaField.setText("");
                     vendaModeloField.setText("");
@@ -196,6 +199,7 @@ public class VendasView extends JPanel {
                         // Comparação dos campos com as informações do carro e cliente selecionado
                         if (!vendaMarcaField.getText().equals(carroSelecionado.getMarca())
                                 || !vendaModeloField.getText().equals(carroSelecionado.getModelo())
+                                || !vendaValorField.getText().equals(carroSelecionado.getValor())
                                 || !vendaPlacaField.getText().equals(carroSelecionado.getPlaca())
                                 || !vendaClienteField.getText().equals(clienteSelecionado.getNome())
                                 || vendaDataHoraField.getText().isEmpty()) {
@@ -204,8 +208,9 @@ public class VendasView extends JPanel {
                             JOptionPane.showMessageDialog(null, "Preencha os Campos Corretamente!",
                                     "Informação Inválida",
                                     2);
-                        } else {
-                            operacoes.apagarCarro(vendaPlacaField.getText());
+                        } else if (JOptionPane.showConfirmDialog(null, "Deseja Realmente Vender Esse Carro?",
+                                "Excluindo Tarefa...", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
                             operacoes.vender(vendaMarcaField.getText(), vendaModeloField.getText(),
                                     vendaValorField.getText(),
                                     vendaPlacaField.getText(), vendaClienteField.getText(),
@@ -217,6 +222,7 @@ public class VendasView extends JPanel {
                             vendaPlacaField.setText("");
                             vendaClienteField.setText("");
                             vendaDataHoraField.setText("");
+
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Preencha os Campos Corretamente!", "Informação Inválida",
@@ -227,7 +233,7 @@ public class VendasView extends JPanel {
                             2);
                 }
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Preencha os Campos Corretamente!", "Informação Inválida",
+                JOptionPane.showMessageDialog(null, "Preencha os Campos Corretamente!2", "Informação Inválida",
                         2);
             }
         });
@@ -270,25 +276,19 @@ public class VendasView extends JPanel {
 
             }
         });
-        // atualizar.addActionListener(e->{
-        //      tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
-        // vendas = new VendasDAO().listarTodos();
-        // for (Vendas venda : vendas) {
-        //     // Adiciona os dados de cada carro como uma nova linha na tabela Swing
-        //     tableModel.addRow(new Object[] { venda.getMarca(), venda.getModelo(),
-        //             venda.getPlaca(), venda.getCliente(), venda.getValor(), venda.getDataHora() });
-        // }
-        // });
+
     }
 
+    // Métodos (Atualizar Tabela)
     // Método para atualizar a tabela de exibição com dados do banco de dados
     private void atualizarTabela() {
         tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
         vendas = new VendasDAO().listarTodos();
+        // Obtém os carros atualizados do banco de dados
         for (Vendas venda : vendas) {
             // Adiciona os dados de cada carro como uma nova linha na tabela Swing
             tableModel.addRow(new Object[] { venda.getMarca(), venda.getModelo(),
-                    venda.getPlaca(), venda.getCliente(), venda.getValor(), venda.getDataHora() });
+                    venda.getValor(), venda.getPlaca(), venda.getCliente(), venda.getDataHora() });
         }
     }
 

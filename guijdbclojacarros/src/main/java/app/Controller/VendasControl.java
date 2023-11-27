@@ -9,7 +9,6 @@ import javax.swing.table.DefaultTableModel;
 import app.Connection.VendasDAO;
 import app.Model.Vendas;
 import app.Connection.CarrosDAO;
-import app.Model.Carros;
 
 public class VendasControl {
     // Atributos
@@ -48,6 +47,8 @@ public class VendasControl {
         new VendasDAO().vender(marca, modelo, valor, placa, cliente, dataHora);
         // Chama o método de cadastro no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após o cadastro
+        CarrosDAO opera = new CarrosDAO();
+        opera.apagar(placa);
     }
 
     // Método para atualizar os dados de um venda no banco de dados
@@ -66,15 +67,15 @@ public class VendasControl {
     }
 
     // Método para excluir carro em outro banco de dados
-    public void apagarCarro(String placa) {
-        new VendasDAO().apagarCarro(placa);
-        try {
-            JOptionPane.showMessageDialog(null, "Carro com placa " + placa + " não está mais diponível para compra",
-                    "Exclusão de Carro", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir carro do outro banco de dados.", "Erro",
-                    JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace(); // Apenas para depuração, remova em produção
-        }
-    }
+    // public void apagarCarro(String placa) {
+    //     new VendasDAO().apagarCarro(placa);
+    //     try {
+    //         JOptionPane.showMessageDialog(null, "Carro com placa " + placa + " não está mais diponível para compra",
+    //                 "Exclusão de Carro", JOptionPane.INFORMATION_MESSAGE);
+    //     } catch (Exception e) {
+    //         JOptionPane.showMessageDialog(null, "Erro ao excluir carro do outro banco de dados.", "Erro",
+    //                 JOptionPane.ERROR_MESSAGE);
+    //         e.printStackTrace(); // Apenas para depuração, remova em produção
+    //     }
+    // }
 }
