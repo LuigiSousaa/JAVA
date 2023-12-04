@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 
 public class EscolhaLogin extends JFrame {
     private CardLayout cardLayout;
@@ -11,7 +12,7 @@ public class EscolhaLogin extends JFrame {
     private JButton btnFuncionario, btnCliente;
 
     public EscolhaLogin() {
-        setTitle("Escolha de Login");
+        setTitle("DEV Marketplace");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         cardLayout = new CardLayout();
@@ -20,10 +21,29 @@ public class EscolhaLogin extends JFrame {
         // Página de escolha
         escolhaPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        escolhaPanel.setPreferredSize(new Dimension(300, 200));
+        escolhaPanel.setPreferredSize(new Dimension(500, 500));
 
-        btnFuncionario = new JButton("Login como Funcionário");
-        btnCliente = new JButton("Login como Cliente");
+        // Carregando os ícones do diretório de recursos
+        ClassLoader classLoader = getClass().getClassLoader();
+
+        URL funcionarioIconUrl = classLoader.getResource("administrador.png");
+        ImageIcon funcionarioIcon = new ImageIcon(funcionarioIconUrl);
+
+
+        URL clienteIconUrl = classLoader.getResource("comprador.png");
+        ImageIcon clienteIcon = new ImageIcon(clienteIconUrl);
+
+        btnFuncionario = new JButton("Login como Funcionário", funcionarioIcon);
+        btnFuncionario.setContentAreaFilled(false);
+        btnFuncionario.setFocusPainted(false);
+        btnFuncionario.setOpaque(false);
+        btnFuncionario.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        btnCliente = new JButton("Login como Cliente", clienteIcon);
+        btnCliente.setContentAreaFilled(false);
+        btnCliente.setFocusPainted(false);
+        btnCliente.setOpaque(false);
+        btnCliente.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         btnFuncionario.addActionListener(new ActionListener() {
             @Override
@@ -41,7 +61,7 @@ public class EscolhaLogin extends JFrame {
 
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(10, 0, 10, 0); // Espaçamento entre os botões
+        gbc.insets = new Insets(0, 10, 0, 10); // Espaçamento entre os botões
         gbc.anchor = GridBagConstraints.CENTER;
 
         escolhaPanel.add(btnFuncionario, gbc);
