@@ -8,14 +8,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.projeto.Controller.*;
+import javax.swing.JOptionPane;
+
 import com.projeto.Model.Cliente;
 
-/**
- * ClientesDAO
- */
 public class ClientesDAO {
-    // atributo
+    
+    
+    // atributos
     private Connection connection;
     private List<Cliente> clientes;
 
@@ -24,9 +24,10 @@ public class ClientesDAO {
         this.connection = ConnectionFactory.getConnection();
     }
 
-    // criar Tabela
+    // Criar a Tabela no banco de dados
     public void criaTabela() {
-        String sql = "CREATE TABLE IF NOT EXISTS clientes_lojacarros (NOME VARCHAR(255),EMAIL VARCHAR(255) PRIMARY KEY,ENDERECO VARCHAR(255),TELEFONE VARCHAR(255))";
+
+        String sql = "CREATE TABLE IF NOT EXISTS clientes_mercado (NOME VARCHAR(255), CPF VARCHAR(255) PRIMARY KEY, SENHA VARCHAR(255), IDADE VARCHAR(255), TELEFONE VARCHAR(255) )";
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
             System.out.println("Tabela criada com sucesso.");
@@ -38,80 +39,102 @@ public class ClientesDAO {
     }
 
     // Listar todos os valores cadastrados
-    // public List<Cliente> listarTodos() {
-    //     PreparedStatement stmt = null;
-    //     ResultSet rs = null;
-    //     clientes = new ArrayList<>();
-    //     try {
-    //         stmt = connection.prepareStatement("SELECT * FROM clientes_lojacarros");
-    //         rs = stmt.executeQuery();
-    //         while (rs.next()) {
-    //             Cliente clientes = new Clientes(
-    //                     rs.getString("nome"),
-    //                     rs.getString("email"),
-    //                     rs.getString("endereco"),
-    //                     rs.getString("telefone"));
-    //             clientes.add(cliente);
-    //         }
-    //     } catch (SQLException ex) {
-    //         System.out.println(ex);
-    //     } finally {
-    //         ConnectionFactory.closeConnection(connection, stmt, rs);
-    //     }
-    //     return clientes;
-    // }
+    public List<Cliente> listarTodos() {
+        PreparedStatement stmt = null; // Declaração do objeto PreparedStatement para executar a consulta
+        ResultSet rs = null; // Declaração do objeto ResultSet para armazenar os resultados da consulta
+        clientes = new ArrayList<>(); // Cria uma lista para armazenar os carros recuperados do banco de dados
+    
+        try {
+            stmt = connection.prepareStatement("SELECT * FROM clientes_mercado"); 
+            // Prepara a consulta SQL para selecionar todos os registros da tabela
+            rs = stmt.executeQuery(); 
+            // Executa a consulta e armazena os resultados no ResultSet
+    
+            while (rs.next()) {
+                // Para cada registro no ResultSet, cria um objeto Carros com os valores do registro
+                Cliente clientes = new Cliente(
+                    rs.getString("cpf"),
+                    rs.getString("nome"),
+                    rs.getString("telefone"),
+                    rs.getString ("senha"),
+                    rs.getString ("idade")
+                );
+                clientes.add(clientes); 
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex); // Em caso de erro durante a consulta, imprime o erro
+        } finally {
+            ConnectionFactory.closeConnection(connection, stmt, rs); // Fecha a conexão, o PreparedStatement e o ResultSet
+        }
+        return clientes; // Retorna a lista de carros recuperados do banco de dados
+    }
 
-    // Cadastrar Cliente no banco
-    public void cadastrar(String nome, String email, String endereco, String telefone) {
+    //Cadastrar Carro no banco
+    public void cadastrar(String cpf, String nome, String telefone, String senha, String idade) {
         PreparedStatement stmt = null;
-        String sql = "INSERT INTO clientes_lojacarros (nome, email, endereco, telefone) VALUES (?, ?, ?, ?)";
+        // Define a instrução SQL parametrizada para cadastrar na tabela
+        String sql = "INSERT INTO clientes_mercado (cpf, nome, telefone, senha, idade ) VALUES (?, ?, ?, ?, ?)";
         try {
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, nome);
-            stmt.setString(2, email);
-            stmt.setString(3, endereco);
-            stmt.setString(4, telefone);
+            stmt.setString(1, cpf);
+            stmt.setString(2, nome);
+            stmt.setString(3, telefone);
+            stmt.setString(4, senha);
+            stmt.setString(5, idade);
             stmt.executeUpdate();
             System.out.println("Dados inseridos com sucesso");
+            JOptionPane.showMessageDialog(null, "Cliente cadastrado com Sucesso✅");
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao inserir dados no banco de dados.", e);
+           if (e.getSQLState().equals("23505")) {
+            JOptionPane.showMessageDialog(null, "\"Erro: O CPF inserido já existe na tabela.\"");
+           } else {
+             throw new RuntimeException("Erro ao inserir os dados ao banco.", e);
+           }
         } finally {
-            ConnectionFactory.closeConnection(connection, stmt);
+            ConnectionFactory.closeConnection(connection,stmt);
         }
     }
 
-    // Atualizar dados no banco
-    public void atualizar(String nome, String email, String endereco, String telefone) {
+    //Atualizar dados no banco
+    public void atualizar(String cpf, String nome, String telefone, String senha, String idade) {
         PreparedStatement stmt = null;
-        String sql = "UPDATE clientes_lojacarros SET nome = ?, endereco = ?, telefone = ? WHERE email = ?";
+        // Define a instrução SQL parametrizada para atualizar dados pela placa
+        String sql = "UPDATE clientes_mercado SET nome = ?, telefone = ?, senha = ?, idade = ?,    WHERE cpf = ?";
         try {
             stmt = connection.prepareStatement(sql);
             stmt.setString(1, nome);
-            stmt.setString(2, endereco);
-            stmt.setString(3, telefone);
-            stmt.setString(4, email);
+            stmt.setString(2, senha);
+            stmt.setString(3, idade);
+            stmt.setString(4, telefone);
+            //cpf é chave primaria não pode ser alterada.
+            stmt.setString(5, cpf);
+            
             stmt.executeUpdate();
+            
             System.out.println("Dados atualizados com sucesso");
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao atualizar dados no banco de dados.", e);
+            throw new RuntimeException("Erro ao atualizar os dados ao banco.", e);
         } finally {
             ConnectionFactory.closeConnection(connection, stmt);
         }
     }
 
     // Apagar dados do banco
-    public void apagar(String email) {
+    public void apagar(String cpf) {
         PreparedStatement stmt = null;
-        String sql = "DELETE FROM clientes_lojacarros WHERE email = ?";
+        // Define a instrução SQL parametrizada para apagar dados pela placa
+        String sql = "DELETE FROM clientes_mercado WHERE cpf = ?";
         try {
             stmt = connection.prepareStatement(sql);
-            stmt.setString(1, email);
-            stmt.executeUpdate();
+            stmt.setString(1, cpf);
+            stmt.executeUpdate(); // Executa a instrução SQL
             System.out.println("Dado apagado com sucesso");
         } catch (SQLException e) {
-            throw new RuntimeException("Erro ao apagar dados no banco de dados.", e);
+            throw new RuntimeException("Erro ao apagar os dados ao banco.", e);
         } finally {
             ConnectionFactory.closeConnection(connection, stmt);
+
         }
     }
+
 }

@@ -1,64 +1,59 @@
-// package com.projeto.Controller;
+package com.projeto.Controller;
 
-// import java.util.List;
-// import javax.swing.JTable;
-// import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
-// import com.projeto.Model.Cliente;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
-// /**
-//  * ClientesControl
-//  */
-// public class ClientesControl {
-//     // Atributos
-//     private List<Cliente> clientes;
-//     private DefaultTableModel tableModel;
-//     private JTable table;
+import com.projeto.Model.*;
+import com.projeto.Connection.*;;
 
-//     // Construtor
-//     public ClientesControl(List<Cliente> clientes, DefaultTableModel tableModel, JTable table) {
-//         this.clientes = clientes;
-//         this.tableModel = tableModel;
-//         this.table = table;
-//     }
+public class ClientesControl {
+    
+    // Atributos
+    private List<Cliente> clientes; // Lista de objetos Carros
+    private DefaultTableModel tableModel; // Modelo da tabela Swing para exibição dos dados
+    private JTable table; // Tabela Swing onde os dados são exibidos
 
-//     public ClientesControl() {
-//     }
+    // Construtor
+    public ClientesControl(List<Cliente> clientes, DefaultTableModel tableModel, JTable table) {
+        this.clientes = clientes; // Inicializa a lista de carros
+        this.tableModel = tableModel; // Inicializa o modelo da tabela
+        this.table = table; // Inicializa a tabela Swing
+    }
 
-//     // Método para atualizar a tabela de exibição com dados do banco de dados
-//     private void atualizarTabela() {
-//         tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
-//         clientes = new ClientesDAO().listarTodos();
-//         // Obtém os clientes atualizados do banco de dados
-//         for (Cliente cliente : clientes) {
-//             // Adiciona os dados de cada cliente como uma nova linha na tabela Swing
-//             tableModel.addRow(new Object[] { cliente.getDataNascimento(),
-//                     cliente.getUsername() });
-//         }
-//     }
+    // Método para atualizar a tabela de exibição com dados do banco de dados
+    private void atualizarTabela() {
+        tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
+        clientes = new ClientesDAO().listarTodos(); // Obtém os carros atualizados do banco de dados
+        for (Cliente clientes : clientes) {
+            // Adiciona os dados de cada carro como uma nova linha na tabela Swing
+            tableModel.addRow(new Object[] { clientes.getNome(), clientes.getCpf(), clientes.getSenha(), clientes.getIdade(), clientes.getTelefone() });
+        }
+    }
 
-//     // Método para cadastrar um novo cliente no banco de dados
-//     public void cadastrar(String dataNascimento, String username, String senha) {
-//         new ClientesDAO().cadastrar(dataNascimento, username, senha);
-//         // Chama o método de cadastro no banco de dados
-//         atualizarTabela(); // Atualiza a tabela de exibição após o cadastro
-//     }
+    // Método para cadastrar um novo carro no banco de dados
+    public void cadastrar(String cpf, String nome, String telefone, String senha, String idade) {
+        new ClientesDAO().cadastrar(cpf, nome, telefone, senha, idade);
+        // Chama o método de cadastro no banco de dados
+        atualizarTabela(); // Atualiza a tabela de exibição após o cadastro
+    }
 
-//     // Método para atualizar os dados de um cliente no banco de dados
-//     public void atualizar(String dataNascimento, String username, String senha) {
-//         new ClientesDAO().atualizar(dataNascimento, username, senha);
-//         // Chama o método de atualização no banco de dados
-//         atualizarTabela(); // Atualiza a tabela de exibição após a atualização
-//     }
+    // Método para atualizar os dados de um carro no banco de dados
+    public void atualizar(String cpf, String nome, String telefone, String senha, String idade) {
+        new ClientesDAO().atualizar(cpf, nome, telefone, senha, idade);
+        // Chama o método de atualização no banco de dados
+        atualizarTabela(); // Atualiza a tabela de exibição após a atualização
+    }
 
-//     // Método para apagar um cliente do banco de dados
-//     public void apagar(String username, String senha) {
-//         new ClientesDAO().apagar(username, senha);
-//         // Chama o método de exclusão no banco de dados
-//         atualizarTabela(); // Atualiza a tabela de exibição após a exclusão
-//     }
+    // Método para apagar um carro do banco de dados
+    public void apagar(String cpf) {
+        new ClientesDAO().apagar(cpf); 
+        // Chama o método de exclusão no banco de dados
+        atualizarTabela(); // Atualiza a tabela de exibição após a exclusão
+    }
 
-//     public void limpar(String dataNascimento, String username, String senha) {
-//         // Implemente a lógica para limpar os campos, se necessário
-//     }
-// }
+    public void limpar(String text, String text2, String text3, String text4) {
+    }
+
+}

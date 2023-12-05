@@ -30,7 +30,7 @@ public class EscolhaLogin extends JFrame {
         ImageIcon funcionarioIcon = new ImageIcon(funcionarioIconUrl);
 
 
-        URL clienteIconUrl = classLoader.getResource("comprador.png");
+        URL clienteIconUrl = classLoader.getResource("cliente.png");
         ImageIcon clienteIcon = new ImageIcon(clienteIconUrl);
 
         btnFuncionario = new JButton("Login como Funcionário", funcionarioIcon);

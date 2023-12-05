@@ -1,44 +1,52 @@
 package com.projeto.Model;
 
 public class Cliente {
-    // Atributos
-    private String dataNascimento;
-    private String username;
+    
+
+    private String nome;
+    private String cpf;
     private String senha;
-
-    // Construtores
-    public Cliente() {
-
+    private String idade;
+    private String telefone;
+    public String getNome() {
+        return nome;
     }
-
-    public Cliente(String dataNascimento, String username, String senha) {
-        this.dataNascimento = dataNascimento;
-        this.username = username;
-        this.senha = senha;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
-
-    // Getters and Setters
-    public String getDataNascimento() {
-        return dataNascimento;
+    public String getCpf() {
+        return cpf;
     }
-
-    public void setDataNascimento(String dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getSenha() {
         return senha;
     }
-
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+    public String getIdade() {
+        return idade;
+    }
+    public void setIdade(String idade) {
+        this.idade = idade;
+    }
+    public String getTelefone() {
+        return telefone;
+    }
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public Cliente(String nome, String cpf, String senha, String idade, String telefone) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.senha = senha;
+        this.idade = idade;
+        this.telefone = telefone;
+       
+    }
+    public void add(Cliente clientes) {
     }
 }
