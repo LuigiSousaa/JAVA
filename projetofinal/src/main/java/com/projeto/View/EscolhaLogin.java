@@ -88,3 +88,4 @@ public class EscolhaLogin extends JFrame {
         SwingUtilities.invokeLater(() -> new EscolhaLogin());
     }
 }
+

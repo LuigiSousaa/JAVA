@@ -26,22 +26,22 @@ public class ClientesControl {
     private void atualizarTabela() {
         tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
         clientes = new ClientesDAO().listarTodos(); // Obtém os carros atualizados do banco de dados
-        for (Cliente clientes : clientes) {
+        for (Cliente cliente : clientes) {
             // Adiciona os dados de cada carro como uma nova linha na tabela Swing
-            tableModel.addRow(new Object[] { clientes.getNome(), clientes.getCpf(), clientes.getSenha(), clientes.getIdade(), clientes.getTelefone() });
+            tableModel.addRow(new Object[] { cliente.getNome(), cliente.getCpf(), cliente.getdataNascimento(), cliente.getTelefone() });
         }
     }
 
     // Método para cadastrar um novo carro no banco de dados
-    public void cadastrar(String cpf, String nome, String telefone, String senha, String idade) {
-        new ClientesDAO().cadastrar(cpf, nome, telefone, senha, idade);
+    public void cadastrar(String cpf, String nome, String telefone, String dataNascimento) {
+        new ClientesDAO().cadastrar(cpf, nome, telefone, dataNascimento);
         // Chama o método de cadastro no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após o cadastro
     }
 
     // Método para atualizar os dados de um carro no banco de dados
-    public void atualizar(String cpf, String nome, String telefone, String senha, String idade) {
-        new ClientesDAO().atualizar(cpf, nome, telefone, senha, idade);
+    public void atualizar(String cpf, String nome, String telefone, String dataNascimento) {
+        new ClientesDAO().atualizar(cpf, nome, telefone, dataNascimento);
         // Chama o método de atualização no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a atualização
     }

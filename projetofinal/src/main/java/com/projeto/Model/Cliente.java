@@ -5,8 +5,7 @@ public class Cliente {
 
     private String nome;
     private String cpf;
-    private String senha;
-    private String idade;
+    private String dataNascimento;
     private String telefone;
     public String getNome() {
         return nome;
@@ -20,17 +19,11 @@ public class Cliente {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
-    public String getSenha() {
-        return senha;
+    public String getdataNascimento() {
+        return dataNascimento;
     }
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-    public String getIdade() {
-        return idade;
-    }
-    public void setIdade(String idade) {
-        this.idade = idade;
+    public void setdataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
     public String getTelefone() {
         return telefone;
@@ -39,11 +32,10 @@ public class Cliente {
         this.telefone = telefone;
     }
 
-    public Cliente(String nome, String cpf, String senha, String idade, String telefone) {
+    public Cliente(String nome, String cpf, String dataNascimento, String telefone) {
         this.nome = nome;
         this.cpf = cpf;
-        this.senha = senha;
-        this.idade = idade;
+        this.dataNascimento = dataNascimento;
         this.telefone = telefone;
        
     }
