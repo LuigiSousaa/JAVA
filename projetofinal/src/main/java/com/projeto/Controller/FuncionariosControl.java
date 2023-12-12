@@ -5,68 +5,68 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
+import com.projeto.Connection.*;
 import com.projeto.Model.*;
 import com.projeto.View.LoginFuncionario;
-import com.projeto.Connection.*;;
 
-public class ClientesControl {
+public class FuncionariosControl {
 
     // Atributos
-    private List<Cliente> clientes; // Lista de objetos Carros
+    private List<Funcionario> funcionarios; // Lista de objetos Carros
     private DefaultTableModel tableModel; // Modelo da tabela Swing para exibição dos dados
     private JTable table; // Tabela Swing onde os dados são exibidos
 
     // Construtor
-    public ClientesControl(List<Cliente> clientes, DefaultTableModel tableModel, JTable table) {
-        this.clientes = clientes; // Inicializa a lista de carros
+    public FuncionariosControl(List<Funcionario> funcionarios, DefaultTableModel tableModel, JTable table) {
+        this.funcionarios = funcionarios; // Inicializa a lista de carros
         this.tableModel = tableModel; // Inicializa o modelo da tabela
         this.table = table; // Inicializa a tabela Swing
+
     }
 
     // Método para atualizar a tabela de exibição com dados do banco de dados
     private void atualizarTabela() {
         tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
-        clientes = new ClientesDAO().listarTodos(); // Obtém os carros atualizados do banco de dados
-        for (Cliente cliente : clientes) {
+        funcionarios = new FuncionariosDAO().listarTodos(); // Obtém os carros atualizados do banco de dados
+        for (Funcionario funcionarios : funcionarios) {
             // Adiciona os dados de cada carro como uma nova linha na tabela Swing
-            tableModel.addRow(new Object[] { cliente.getNome(), cliente.getCpf(), cliente.getdataNascimento(),
-                    cliente.getTelefone() });
+            tableModel.addRow(new Object[] { funcionarios.getNome(), funcionarios.getCpf(),
+                    funcionarios.getdataNascimento(), funcionarios.getTelefone() });
         }
     }
 
     // Método para cadastrar um novo carro no banco de dados
-    public void cadastrar(String cpf, String nome, String telefone, String dataNascimento) {
-        new ClientesDAO().cadastrar(cpf, nome, telefone, dataNascimento);
+    public void cadastrar(String cpf, String nome, String telefone, String idade) {
+        new FuncionariosDAO().cadastrar(cpf, nome, telefone, idade);
         // Chama o método de cadastro no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após o cadastro
     }
 
     // Método para atualizar os dados de um carro no banco de dados
-    public void atualizar(String cpf, String nome, String telefone, String dataNascimento) {
-        new ClientesDAO().atualizar(cpf, nome, telefone, dataNascimento);
+    public void atualizar(String cpf, String nome, String telefone, String idade) {
+        new FuncionariosDAO().atualizar(cpf, nome, telefone, idade);
         // Chama o método de atualização no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a atualização
     }
 
     // Método para apagar um carro do banco de dados
     public void apagar(String cpf) {
-        new ClientesDAO().apagar(cpf);
+        new FuncionariosDAO().apagar(cpf);
         // Chama o método de exclusão no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a exclusão
     }
 
-    public void limpar(String text, String text2, String text3, String text4) {
+    public void formatData(String dataNascimento) {
+
     }
 
-     // Método para verificar se o CPF existe
-     public boolean verificarCPF(String cpf) {
-        ClientesDAO clientesDAO = new ClientesDAO();
-        if (clientesDAO.verificarCPFExistente(cpf)) {
+    // Método para verificar se o CPF existe
+    public boolean verificarCPF(String cpf) {
+        FuncionariosDAO funcionariosDAO = new FuncionariosDAO();
+        if (funcionariosDAO.verificarCPFExistente(cpf)) {
             // Lógica para login bem-sucedido
             LoginFuncionario loginFuncionario = new LoginFuncionario();
             loginFuncionario.dispose();
-
             JOptionPane.showMessageDialog(null, "Seja bem-vindo, portador do CPF: " + cpf);
             return true;
         } else {

@@ -2,14 +2,12 @@ package com.projeto.View;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.URL;
 
-public class EscolhaLogin extends JFrame {
+public class JanelaEscolha extends JFrame {
     private JButton btnFuncionario, btnCliente;
 
-    public EscolhaLogin() {
+    public JanelaEscolha() {
         setTitle("DEV Marketplace");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -32,30 +30,26 @@ public class EscolhaLogin extends JFrame {
         btnFuncionario.setOpaque(false);
         btnFuncionario.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        btnCliente = new JButton("Login como Cliente", clienteIcon);
+        btnCliente = new JButton("Cadastrar-se como cliente", clienteIcon);
         btnCliente.setContentAreaFilled(false);
         btnCliente.setFocusPainted(false);
         btnCliente.setOpaque(false);
         btnCliente.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        btnFuncionario.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                LoginFuncionario loginF = new LoginFuncionario();
-                loginF.setSize(800, 600);
-                loginF.setVisible(true);
-                dispose();
-            }
+        btnFuncionario.addActionListener(e -> {
+            LoginFuncionario loginF = new LoginFuncionario();
+            loginF.setSize(800, 600);
+            loginF.setLocationRelativeTo(null);
+            loginF.setVisible(true);
+            dispose();
         });
 
-        btnCliente.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CadastroCliente loginC = new CadastroCliente();
-                loginC.setSize(600, 620);
-                loginC.setVisible(true);
-                dispose();
-            }
+        btnCliente.addActionListener(e -> {
+            JanelaCadastroCliente loginC = new JanelaCadastroCliente();
+            loginC.setSize(600, 620);
+            loginC.setLocationRelativeTo(null);
+            loginC.setVisible(true);
+            dispose();
         });
 
         gbc.gridx = 0;
@@ -69,13 +63,13 @@ public class EscolhaLogin extends JFrame {
         escolhaPanel.add(btnCliente, gbc);
 
         add(escolhaPanel);
-
-        pack(); // Empacota os componentes para ajustar automaticamente o tamanho da janela
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new EscolhaLogin());
+    public void run() {
+        pack();
+        setVisible(true);
+        setSize(650, 450);
+        setResizable(false);
+        setLocationRelativeTo(null); 
     }
 }
