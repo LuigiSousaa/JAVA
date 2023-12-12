@@ -102,6 +102,12 @@ public class JanelaCadastroCliente extends JPanel {
         });
     }
 
+    public void run() {
+        setVisible(true);
+        setSize(650, 450);
+        setLocationRelativeTo(null); 
+    }
+
     // Método para atualizar a tabela de clientes
     private void atualizarTabela() {
         tableModel.setRowCount(0);
@@ -111,6 +117,9 @@ public class JanelaCadastroCliente extends JPanel {
             tableModel.addRow(new Object[] { cliente.getNome(), cliente.getCpf(),
                     cliente.getdataNascimento(), cliente.getTelefone() });
         }
+    }
+
+    public void setLocationRelativeTo(Object object) {
     }
 
 }

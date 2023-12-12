@@ -26,14 +26,31 @@ public class ClientesControl {
 
     // Método para atualizar a tabela de exibição com dados do banco de dados
     private void atualizarTabela() {
-        tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
-        clientes = new ClientesDAO().listarTodos(); // Obtém os carros atualizados do banco de dados
-        for (Cliente cliente : clientes) {
-            // Adiciona os dados de cada carro como uma nova linha na tabela Swing
-            tableModel.addRow(new Object[] { cliente.getNome(), cliente.getCpf(), cliente.getdataNascimento(),
-                    cliente.getTelefone() });
+        if (tableModel != null) {
+            tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
+            clientes = new ClientesDAO().listarTodos(); // Obtém os carros atualizados do banco de dados
+            for (Cliente cliente : clientes) {
+                // Adiciona os dados de cada carro como uma nova linha na tabela Swing
+                tableModel.addRow(new Object[] { cliente.getNome(), cliente.getCpf(), cliente.getdataNascimento(),
+                        cliente.getTelefone() });
+            }
+        } else {
+            System.out.println("O modelo da tabela não foi inicializado corretamente.");
+        }
+    
+        if (table != null) {
+            tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
+            clientes = new ClientesDAO().listarTodos(); // Obtém os carros atualizados do banco de dados
+            for (Cliente cliente : clientes) {
+                // Adiciona os dados de cada carro como uma nova linha na tabela Swing
+                tableModel.addRow(new Object[] { cliente.getNome(), cliente.getCpf(), cliente.getdataNascimento(),
+                        cliente.getTelefone() });
+            }
+        } else {
+            System.out.println("A tabela não foi inicializada corretamente.");
         }
     }
+    
 
     // Método para cadastrar um novo carro no banco de dados
     public void cadastrar(String cpf, String nome, String telefone, String dataNascimento) {

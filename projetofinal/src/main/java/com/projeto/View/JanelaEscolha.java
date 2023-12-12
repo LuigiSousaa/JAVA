@@ -1,6 +1,7 @@
 package com.projeto.View;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.net.URL;
 
@@ -14,6 +15,8 @@ public class JanelaEscolha extends JFrame {
         JPanel escolhaPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         escolhaPanel.setPreferredSize(new Dimension(500, 500));
+
+
 
         // Carregando os ícones do diretório de recursos
         ClassLoader classLoader = getClass().getClassLoader();
@@ -45,8 +48,8 @@ public class JanelaEscolha extends JFrame {
         });
 
         btnCliente.addActionListener(e -> {
-            JanelaCadastroCliente loginC = new JanelaCadastroCliente();
-            loginC.setSize(600, 620);
+            JanelaCadastra loginC = new JanelaCadastra();
+            loginC.setSize(600, 200);
             loginC.setLocationRelativeTo(null);
             loginC.setVisible(true);
             dispose();
