@@ -7,19 +7,13 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 
 public class EscolhaLogin extends JFrame {
-    private CardLayout cardLayout;
-    private JPanel cardPanel, escolhaPanel;
     private JButton btnFuncionario, btnCliente;
 
     public EscolhaLogin() {
         setTitle("DEV Marketplace");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        cardLayout = new CardLayout();
-        cardPanel = new JPanel(cardLayout);
-
-        // Página de escolha
-        escolhaPanel = new JPanel(new GridBagLayout());
+        JPanel escolhaPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         escolhaPanel.setPreferredSize(new Dimension(500, 500));
 
@@ -28,7 +22,6 @@ public class EscolhaLogin extends JFrame {
 
         URL funcionarioIconUrl = classLoader.getResource("administrador.png");
         ImageIcon funcionarioIcon = new ImageIcon(funcionarioIconUrl);
-
 
         URL clienteIconUrl = classLoader.getResource("cliente.png");
         ImageIcon clienteIcon = new ImageIcon(clienteIconUrl);
@@ -48,14 +41,20 @@ public class EscolhaLogin extends JFrame {
         btnFuncionario.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel, "loginFuncionario");
+                LoginFuncionario loginF = new LoginFuncionario();
+                loginF.setSize(800, 600);
+                loginF.setVisible(true);
+                dispose();
             }
         });
 
         btnCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout.show(cardPanel, "loginCliente");
+                CadastroCliente loginC = new CadastroCliente();
+                loginC.setSize(600, 620);
+                loginC.setVisible(true);
+                dispose();
             }
         });
 
@@ -69,15 +68,7 @@ public class EscolhaLogin extends JFrame {
         gbc.gridx = 1;
         escolhaPanel.add(btnCliente, gbc);
 
-        // Adicionando páginas ao cardPanel
-        cardPanel.add(escolhaPanel, "escolha");
-        cardPanel.add(new LoginFuncionario(), "loginFuncionario");
-        cardPanel.add(new LoginCliente(), "loginCliente");
-
-        // Exibindo a página de escolha por padrão
-        cardLayout.show(cardPanel, "escolha");
-
-        add(cardPanel);
+        add(escolhaPanel);
 
         pack(); // Empacota os componentes para ajustar automaticamente o tamanho da janela
         setLocationRelativeTo(null);
@@ -88,4 +79,3 @@ public class EscolhaLogin extends JFrame {
         SwingUtilities.invokeLater(() -> new EscolhaLogin());
     }
 }
-

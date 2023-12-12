@@ -9,7 +9,7 @@ import com.projeto.Model.*;
 import com.projeto.Connection.*;;
 
 public class ClientesControl {
-    
+
     // Atributos
     private List<Cliente> clientes; // Lista de objetos Carros
     private DefaultTableModel tableModel; // Modelo da tabela Swing para exibição dos dados
@@ -28,7 +28,8 @@ public class ClientesControl {
         clientes = new ClientesDAO().listarTodos(); // Obtém os carros atualizados do banco de dados
         for (Cliente cliente : clientes) {
             // Adiciona os dados de cada carro como uma nova linha na tabela Swing
-            tableModel.addRow(new Object[] { cliente.getNome(), cliente.getCpf(), cliente.getdataNascimento(), cliente.getTelefone() });
+            tableModel.addRow(new Object[] { cliente.getNome(), cliente.getCpf(), cliente.getdataNascimento(),
+                    cliente.getTelefone() });
         }
     }
 
@@ -48,12 +49,17 @@ public class ClientesControl {
 
     // Método para apagar um carro do banco de dados
     public void apagar(String cpf) {
-        new ClientesDAO().apagar(cpf); 
+        new ClientesDAO().apagar(cpf);
         // Chama o método de exclusão no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a exclusão
     }
 
     public void limpar(String text, String text2, String text3, String text4) {
+    }
+
+    // Método para verificar se um CPF já existe no banco de dados
+    private boolean verificarCPF(String cpf) {
+        return new ClientesDAO().verificarCPFExistente(cpf);
     }
 
 }

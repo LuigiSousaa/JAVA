@@ -1,114 +1,82 @@
 package com.projeto.View;
 
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.List;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
 
 import com.projeto.Connection.ClientesDAO;
-import com.projeto.Controller.ClientesControl;
-import com.projeto.Model.Cliente;
 
-public class LoginCliente extends JPanel {
-    // Atributos
-    private JButton cadastrar, redirecionar, limpar;
-    private JTextField clienteNomeField, clienteCpfField, clienteTelefoneField, clienteDataNascimentoField;
-    private List<Cliente> clientes;
-    private JTable table;
-    private DefaultTableModel tableModel;
-    private int linhaSelecionada = -1;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-    // Construtor
+public class LoginCliente extends JFrame {
+    private JTextField cpfTextField;
+
     public LoginCliente() {
-        super();
+        // Configuração da janela
+        setTitle("Login do Cliente");
+        setSize(300, 150);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
 
-        // Entrada de dados
-        JPanel inputPanel = new JPanel(new GridLayout(5, 2));
-        inputPanel.add(new JLabel("Nome"));
-        clienteNomeField = new JTextField(20);
-        inputPanel.add(clienteNomeField);
-        inputPanel.add(new JLabel("CPF"));
-        clienteCpfField = new JTextField(20);
-        inputPanel.add(clienteCpfField);
-        inputPanel.add(new JLabel("Data de nascimento"));
-        clienteDataNascimentoField = new JTextField(20);
-        inputPanel.add(clienteDataNascimentoField);
-        inputPanel.add(new JLabel("Telefone"));
-        clienteTelefoneField = new JTextField(20);
-        inputPanel.add(clienteTelefoneField);
+        // Layout e componentes
+        JPanel panel = new JPanel(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.insets = new Insets(5, 5, 5, 5); // Espaçamento
 
-        JPanel botoes = new JPanel();
-        cadastrar = new JButton("Cadastrar");
-        redirecionar = new JButton("Redirecionar");
-        limpar = new JButton("Limpar");
-        botoes.add(cadastrar);
-        botoes.add(redirecionar);
-        botoes.add(limpar);
+        JLabel cpfLabel = new JLabel("CPF:");
+        cpfTextField = new JTextField(15);
+        JButton loginButton = new JButton("Login");
 
-        // Tabela de clientes
-        tableModel = new DefaultTableModel(new Object[][] {},
-                new String[] { "Nome", "CPF", "Idade", "Telefone" });
-        table = new JTable(tableModel);
-        JScrollPane jSPane = new JScrollPane(table);
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.anchor = GridBagConstraints.LINE_END;
+        panel.add(cpfLabel, constraints);
 
-        // Adicionando componentes ao JFrame
-        setLayout(new BorderLayout(10, 10));
-        add(inputPanel, BorderLayout.NORTH);
-        add(botoes, BorderLayout.CENTER);
-        add(jSPane, BorderLayout.SOUTH);
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        constraints.anchor = GridBagConstraints.LINE_START;
+        panel.add(cpfTextField, constraints);
 
-        new ClientesDAO().criaTabela();
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.gridwidth = 2;
+        constraints.anchor = GridBagConstraints.CENTER;
+        panel.add(loginButton, constraints);
 
-        atualizarTabela();
-
-        // Tratamento
-        table.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent evt) {
-                linhaSelecionada = table.rowAtPoint(evt.getPoint());
-                if (linhaSelecionada != -1) {
-                    clienteNomeField.setText((String) table.getValueAt(linhaSelecionada, 0));
-                    clienteCpfField.setText((String) table.getValueAt(linhaSelecionada, 1));
-                    clienteDataNascimentoField.setText((String) table.getValueAt(linhaSelecionada, 2));
-                    clienteTelefoneField.setText((String) table.getValueAt(linhaSelecionada, 3));
-                }
-            }
+        // Adiciona o ActionListener para o botão de login
+        loginButton.addActionListener(e -> {
+            realizarLogin();
         });
 
-        ClientesControl operacoesClientes = new ClientesControl(clientes, tableModel, table);
+        // Adiciona o painel à janela
+        add(panel);
 
-        cadastrar.addActionListener(e -> {
-            operacoesClientes.cadastrar(
-                    clienteNomeField.getText(),
-                    clienteCpfField.getText(),
-                    clienteTelefoneField.getText(),
-                    clienteDataNascimentoField.getText());
-        });
-
-        redirecionar.addActionListener(e -> {
-            LoginFuncionario lf = new LoginFuncionario();
-            lf.setVisible(true);
-            // MinhaOutraClasse outraClasse = new MinhaOutraClasse();
-            // outraClasse.setVisible(true);
-        });
+        // Torna a janela visível
+        setVisible(true);
     }
 
-    // Método para atualizar a tabela de clientes
-    private void atualizarTabela() {
-        tableModel.setRowCount(0);
-        clientes = new ClientesDAO().listarTodos();
+    private void realizarLogin() {
+        String cpf = cpfTextField.getText();
 
-        for (Cliente cliente : clientes) {
-            tableModel.addRow(new Object[] { cliente.getNome(), cliente.getCpf(),
-                    cliente.getdataNascimento(), cliente.getTelefone() });
+        // Cria uma instância de ClientesDAO
+        ClientesDAO clientesDAO = new ClientesDAO();
+
+        // Chama o método verificarCPFExistente para validar o CPF
+        if (clientesDAO.verificarCPFExistente(cpf)) {
+            // Lógica para login bem-sucedido
+            JOptionPane.showMessageDialog(this, "Login realizado com sucesso para o CPF: " + cpf);
+        } else {
+            // Lógica para login falhado
+            JOptionPane.showMessageDialog(this, "CPF não encontrado. Por favor, informe um CPF válido.");
         }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new LoginCliente();
+            }
+        });
     }
 }
