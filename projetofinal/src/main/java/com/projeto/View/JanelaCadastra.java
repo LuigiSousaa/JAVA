@@ -34,7 +34,7 @@ public class JanelaCadastra extends JFrame {
         inputPanel.add(new JLabel("CPF"));
         clienteCpfField = new JTextField(20);
         inputPanel.add(clienteCpfField);
-        inputPanel.add(new JLabel("Data de nascimento"));
+        inputPanel.add(new JLabel("Data de nascimento (dd/mm/aaaa)"));
         clienteDataNascimentoField = new JTextField(20);
         inputPanel.add(clienteDataNascimentoField);
         inputPanel.add(new JLabel("Telefone"));

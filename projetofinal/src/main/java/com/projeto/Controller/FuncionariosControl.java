@@ -1,5 +1,9 @@
 package com.projeto.Controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -7,6 +11,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.projeto.Connection.*;
 import com.projeto.Model.*;
+import com.projeto.View.JanelaPrincipal;
 import com.projeto.View.LoginFuncionario;
 
 public class FuncionariosControl {
@@ -57,7 +62,32 @@ public class FuncionariosControl {
     }
 
     public void formatData(String dataNascimento) {
+        // Obtenha a data atual
+        Calendar dataAtual = Calendar.getInstance();
 
+        // Converta a string para um objeto Date
+        Date dataNascimentoDate = null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            dataNascimentoDate = sdf.parse(dataNascimento);
+        } catch (ParseException e) {
+            System.out.println("Formato de data inválido. Use o formato dd/MM/yyyy.");
+            return; // Encerra o método se a conversão falhar
+        }
+
+        // Calcule a diferença em anos
+        Calendar dataNascimentoCal = Calendar.getInstance();
+        dataNascimentoCal.setTime(dataNascimentoDate);
+
+        int diferencaAnos = dataAtual.get(Calendar.YEAR) - dataNascimentoCal.get(Calendar.YEAR);
+
+        // Verifique se ainda não fez aniversário este ano
+        if (dataAtual.get(Calendar.DAY_OF_YEAR) < dataNascimentoCal.get(Calendar.DAY_OF_YEAR)) {
+            diferencaAnos--;
+        }
+
+        // Armazene o resultado na variável "idade"
+        int idade = diferencaAnos;
     }
 
     // Método para verificar se o CPF existe
@@ -67,6 +97,10 @@ public class FuncionariosControl {
             // Lógica para login bem-sucedido
             LoginFuncionario loginFuncionario = new LoginFuncionario();
             loginFuncionario.dispose();
+            JanelaPrincipal jp = new JanelaPrincipal();
+            jp.setSize(800, 800);
+            jp.setLocationRelativeTo(null);
+            jp.setVisible(true);
             JOptionPane.showMessageDialog(null, "Seja bem-vindo, portador do CPF: " + cpf);
             return true;
         } else {

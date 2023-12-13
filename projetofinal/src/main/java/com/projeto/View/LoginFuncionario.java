@@ -2,6 +2,8 @@ package com.projeto.View;
 
 import javax.swing.*;
 import java.awt.*;
+
+import com.projeto.Connection.FuncionariosDAO;
 import com.projeto.Controller.ClientesControl;
 
 public class LoginFuncionario extends JFrame {
@@ -14,6 +16,10 @@ public class LoginFuncionario extends JFrame {
         setSize(300, 150);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        FuncionariosDAO funcDAO = new FuncionariosDAO();
+
+        funcDAO.criaTabela();
 
         // Cria uma instância de ClientesControl
         funcionariosControl = new ClientesControl(null, null, null);
@@ -60,13 +66,6 @@ public class LoginFuncionario extends JFrame {
 
         // Chama o método verificarCPF da classe FuncionariosControl
         funcionariosControl.verificarCPF(cpf);
-
-        JanelaPrincipal jp = new JanelaPrincipal();
-        jp.setSize(800, 800);
-        jp.setLocationRelativeTo(null); 
-        jp.setVisible(true);
-        dispose();
-
     }
 
     public static void main(String[] args) {

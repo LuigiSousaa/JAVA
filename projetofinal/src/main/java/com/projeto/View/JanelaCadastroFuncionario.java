@@ -93,13 +93,6 @@ public class JanelaCadastroFuncionario extends JFrame {
                     funcionarioTelefoneField.getText(),
                     funcionarioDataNascimentoField.getText());
         });
-
-        redirecionar.addActionListener(e -> {
-            LoginFuncionario lf = new LoginFuncionario();
-            lf.setVisible(true);
-            // MinhaOutraClasse outraClasse = new MinhaOutraClasse();
-            // outraClasse.setVisible(true);
-        });
     }
 
     // Método para atualizar a tabela de clientes

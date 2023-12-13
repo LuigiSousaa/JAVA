@@ -54,6 +54,10 @@ public class ClientesControl {
 
     // Método para cadastrar um novo carro no banco de dados
     public void cadastrar(String cpf, String nome, String telefone, String dataNascimento) {
+        // String idade;
+        // if (condition) {
+            
+        // }
         new ClientesDAO().cadastrar(cpf, nome, telefone, dataNascimento);
         // Chama o método de cadastro no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após o cadastro

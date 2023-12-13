@@ -40,7 +40,7 @@ public class JanelaCadastroCliente extends JPanel {
         inputPanel.add(new JLabel("CPF"));
         clienteCpfField = new JTextField(20);
         inputPanel.add(clienteCpfField);
-        inputPanel.add(new JLabel("Data de nascimento"));
+        inputPanel.add(new JLabel("Data de nascimento (dd/mm/aaaa)"));
         clienteDataNascimentoField = new JTextField(20);
         inputPanel.add(clienteDataNascimentoField);
         inputPanel.add(new JLabel("Telefone"));
