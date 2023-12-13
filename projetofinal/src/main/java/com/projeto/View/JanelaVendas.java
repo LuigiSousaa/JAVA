@@ -12,8 +12,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import com.projeto.Connection.*;
-import com.projeto.Model.*;
+import com.projeto.Connection.VendasDAO;
+import com.projeto.Model.Venda;
 
 public class JanelaVendas extends JPanel {
 
@@ -23,6 +23,7 @@ public class JanelaVendas extends JPanel {
     private DefaultTableModel tableModel;
     private JTable table;
     private List<Venda> vendas = new ArrayList<>();
+    private int linhaSelecionada = -1;
     private JScrollPane jSPane;
 
     public JanelaVendas() {
@@ -44,7 +45,7 @@ public class JanelaVendas extends JPanel {
 
         jSPane = new JScrollPane();
         add(jSPane);
-        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Cliente", "Quantidade", "Total" });
+        tableModel = new DefaultTableModel(new Object[][] {}, new String[] { "Data","Cliente", "Quantidade", "Pagamento", "Total" });
         table = new JTable(tableModel);
         jSPane.setViewportView(table);
 
@@ -56,8 +57,8 @@ public class JanelaVendas extends JPanel {
         tableModel.setRowCount(0);
         vendas = new VendasDAO().listarTodos();
         for (Venda venda : vendas) {
-            tableModel.addRow(new Object[] { venda.getId(), venda.getCliente(), venda.getValor(),
-                    venda.getQuantidadeDeProdutos(), venda.getData() });
+            tableModel.addRow(new Object[] { venda.getData(), venda.getCliente(), venda.getQuantidadeDeProdutos(),
+                    venda.getPagamento(), venda.getValor() });
         }
     }
 }

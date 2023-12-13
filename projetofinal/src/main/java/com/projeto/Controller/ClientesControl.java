@@ -37,7 +37,7 @@ public class ClientesControl {
         } else {
             System.out.println("O modelo da tabela não foi inicializado corretamente.");
         }
-    
+
         if (table != null) {
             tableModel.setRowCount(0); // Limpa todas as linhas existentes na tabela
             clientes = new ClientesDAO().listarTodos(); // Obtém os carros atualizados do banco de dados
@@ -50,7 +50,6 @@ public class ClientesControl {
             System.out.println("A tabela não foi inicializada corretamente.");
         }
     }
-    
 
     // Método para cadastrar um novo carro no banco de dados
     public void cadastrar(String cpf, String nome, String telefone, String dataNascimento) {
@@ -71,6 +70,16 @@ public class ClientesControl {
         new ClientesDAO().apagar(cpf);
         // Chama o método de exclusão no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a exclusão
+    }
+
+    public boolean verificarCPF(String cpf) {
+        ClientesDAO clientesDAO = new ClientesDAO();
+        if (clientesDAO.verificarCPFExistente(cpf)) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "CPF não encontrado. Por favor, informe um CPF válido.");
+            return false;
+        }
     }
 
     public void limpar(String text, String text2, String text3, String text4) {

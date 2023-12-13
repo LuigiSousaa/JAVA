@@ -95,16 +95,16 @@ public class JanelaCadastroCliente extends JPanel {
                     dataText.isEmpty() ||
                     telefoneText.isEmpty();
             if (camposObrigatoriosVazios) {
+                JOptionPane.showMessageDialog(null, "Por favor, preencha os campos corretamente.");
+            } else {
                 operacoesClientes.cadastrar(
                         clienteNomeField.getText(),
                         clienteCpfField.getText(),
                         clienteTelefoneField.getText(),
                         clienteDataNascimentoField.getText());
-            } else {
-                JOptionPane.showMessageDialog(null, "Por favor, preencha os campos corretamente.");
             }
         });
-        apagar.addActionListener(e->{
+        apagar.addActionListener(e -> {
             operacoesClientes.apagar(clienteNomeField.getText());
         });
     }

@@ -1,9 +1,5 @@
 package com.projeto.Controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -11,7 +7,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.projeto.Connection.*;
 import com.projeto.Model.*;
-import com.projeto.View.JanelaPrincipal;
 import com.projeto.View.LoginFuncionario;
 
 public class FuncionariosControl {

@@ -15,6 +15,7 @@ public class JanelaPrincipal extends JFrame {
         // ---------------------*
         // Aplicativo principal:
         JTabbedPane abas = new JTabbedPane();
+        abas.add("Caixa", new Caixa());
         abas.add("Estoque", new JanelaEstoque()); // Adiciona o painel de estoque ao TabbedPane 
         abas.add("Vendas", new JanelaVendas()); // Adiciona o painel de vendas ao TabbedPane 
         abas.add("Clientes VIP", new JanelaCadastroCliente());// Adiciona o painel de cadastro de clientes ao TabbedPane 
