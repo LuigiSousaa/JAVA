@@ -7,8 +7,8 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,7 +21,7 @@ import com.projeto.Model.Cliente;
 
 public class JanelaCadastroCliente extends JPanel {
     // Atributos
-    private JButton cadastrar, redirecionar, limpar;
+    private JButton cadastrar, apagar;
     private JTextField clienteNomeField, clienteCpfField, clienteTelefoneField, clienteDataNascimentoField;
     private List<Cliente> clientes;
     private JTable table;
@@ -49,11 +49,9 @@ public class JanelaCadastroCliente extends JPanel {
 
         JPanel botoes = new JPanel();
         cadastrar = new JButton("Cadastrar");
-        redirecionar = new JButton("Redirecionar");
-        limpar = new JButton("Limpar");
+        apagar = new JButton("Apagar");
         botoes.add(cadastrar);
-        botoes.add(redirecionar);
-        botoes.add(limpar);
+        botoes.add(apagar);
 
         // Tabela de clientes
         tableModel = new DefaultTableModel(new Object[][] {},
@@ -87,25 +85,34 @@ public class JanelaCadastroCliente extends JPanel {
         ClientesControl operacoesClientes = new ClientesControl(clientes, tableModel, table);
 
         cadastrar.addActionListener(e -> {
-            operacoesClientes.cadastrar(
-                    clienteNomeField.getText(),
-                    clienteCpfField.getText(),
-                    clienteTelefoneField.getText(),
-                    clienteDataNascimentoField.getText());
-        });
+            String nomeText = clienteNomeField.getText();
+            String cpfText = clienteCpfField.getText();
+            String dataText = clienteDataNascimentoField.getText();
+            String telefoneText = clienteTelefoneField.getText();
 
-        redirecionar.addActionListener(e -> {
-            LoginFuncionario lf = new LoginFuncionario();
-            lf.setVisible(true);
-            // MinhaOutraClasse outraClasse = new MinhaOutraClasse();
-            // outraClasse.setVisible(true);
+            boolean camposObrigatoriosVazios = nomeText.isEmpty() ||
+                    cpfText.isEmpty() ||
+                    dataText.isEmpty() ||
+                    telefoneText.isEmpty();
+            if (camposObrigatoriosVazios) {
+                operacoesClientes.cadastrar(
+                        clienteNomeField.getText(),
+                        clienteCpfField.getText(),
+                        clienteTelefoneField.getText(),
+                        clienteDataNascimentoField.getText());
+            } else {
+                JOptionPane.showMessageDialog(null, "Por favor, preencha os campos corretamente.");
+            }
+        });
+        apagar.addActionListener(e->{
+            operacoesClientes.apagar(clienteNomeField.getText());
         });
     }
 
     public void run() {
         setVisible(true);
         setSize(650, 450);
-        setLocationRelativeTo(null); 
+        setLocationRelativeTo(null);
     }
 
     // Método para atualizar a tabela de clientes

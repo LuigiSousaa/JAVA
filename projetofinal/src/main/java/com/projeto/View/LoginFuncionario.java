@@ -63,9 +63,12 @@ public class LoginFuncionario extends JFrame {
 
     private void realizarLogin() {
         String cpf = cpfTextField.getText();
-
-        // Chama o método verificarCPF da classe FuncionariosControl
+        JanelaPrincipal jp = new JanelaPrincipal();
+        jp.setSize(800, 800);
+        jp.setLocationRelativeTo(null);
+        jp.setVisible(true);
         funcionariosControl.verificarCPF(cpf);
+        dispose();
     }
 
     public static void main(String[] args) {

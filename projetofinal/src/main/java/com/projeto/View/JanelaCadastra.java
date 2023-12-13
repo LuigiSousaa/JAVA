@@ -21,6 +21,7 @@ public class JanelaCadastra extends JFrame {
     private JButton cadastrar, limpar;
     private JTextField clienteNomeField, clienteCpfField, clienteTelefoneField, clienteDataNascimentoField;
     private List<Cliente> clientes;
+    private JanelaProdutos produtos;
 
     // Construtor
     public JanelaCadastra() {
@@ -64,15 +65,14 @@ public class JanelaCadastra extends JFrame {
                     clienteCpfField.getText(),
                     clienteTelefoneField.getText(),
                     clienteDataNascimentoField.getText());
-             JOptionPane.showMessageDialog(null, "Agradecemos pelo cadastro. Boas compras!", "Agradecimento", JOptionPane.INFORMATION_MESSAGE);
             dispose();
-            });
+            JOptionPane.showMessageDialog(null, "Agradecemos pelo cadastro. Boas compras!", "Agradecimento",
+                    JOptionPane.INFORMATION_MESSAGE);
+                    JFrame janela = new JFrame();
+                    janela.setVisible(true);
+                    janela.setDefaultCloseOperation(2);
+                    janela.setLocationRelativeTo(null);
+                    janela.add(new JanelaProdutos());
+        });
     }
-
-    public void run() {
-        setVisible(true);
-        setSize(650, 450);
-        setLocationRelativeTo(null);
-    }
-
 }

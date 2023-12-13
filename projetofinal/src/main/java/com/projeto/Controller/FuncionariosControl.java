@@ -42,7 +42,7 @@ public class FuncionariosControl {
 
     // Método para cadastrar um novo carro no banco de dados
     public void cadastrar(String cpf, String nome, String telefone, String idade) {
-        new FuncionariosDAO().cadastrar(cpf, nome, telefone, idade);
+        new FuncionariosDAO().cadastrar(nome, cpf, telefone, idade);
         // Chama o método de cadastro no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após o cadastro
     }
@@ -97,10 +97,6 @@ public class FuncionariosControl {
             // Lógica para login bem-sucedido
             LoginFuncionario loginFuncionario = new LoginFuncionario();
             loginFuncionario.dispose();
-            JanelaPrincipal jp = new JanelaPrincipal();
-            jp.setSize(800, 800);
-            jp.setLocationRelativeTo(null);
-            jp.setVisible(true);
             JOptionPane.showMessageDialog(null, "Seja bem-vindo, portador do CPF: " + cpf);
             return true;
         } else {

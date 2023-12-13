@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -15,13 +14,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import com.projeto.Connection.ClientesDAO;
 import com.projeto.Connection.FuncionariosDAO;
 import com.projeto.Controller.FuncionariosControl;
 import com.projeto.Model.Funcionario;
 
-public class JanelaCadastroFuncionario extends JFrame {
+public class JanelaCadastroFuncionario extends JPanel {
     // Atributos
-    private JButton cadastrar, redirecionar, limpar;
+    private JButton cadastrar, apagar;
     private JTextField funcionarioNomeField, funcionarioCpfField, funcionarioTelefoneField, funcionarioDataNascimentoField;
     private List<Funcionario> funcionarios;
     private JTable table;
@@ -40,20 +40,19 @@ public class JanelaCadastroFuncionario extends JFrame {
         inputPanel.add(new JLabel("CPF"));
         funcionarioCpfField = new JTextField(20);
         inputPanel.add(funcionarioCpfField);
-        inputPanel.add(new JLabel("Data de nascimento"));
+        inputPanel.add(new JLabel("Data de nascimento (dd/mm/aaaa)"));
         funcionarioDataNascimentoField = new JTextField(20);
         inputPanel.add(funcionarioDataNascimentoField);
         inputPanel.add(new JLabel("Telefone"));
         funcionarioTelefoneField = new JTextField(20);
         inputPanel.add(funcionarioTelefoneField);
 
-        JPanel botoes = new JPanel();
+        JPanel botoesPanel = new JPanel();
         cadastrar = new JButton("Cadastrar");
-        redirecionar = new JButton("Redirecionar");
-        limpar = new JButton("Limpar");
-        botoes.add(cadastrar);
-        botoes.add(redirecionar);
-        botoes.add(limpar);
+        apagar = new JButton("Apagar");
+        botoesPanel.add(cadastrar);
+        botoesPanel.add(apagar);
+        add(botoesPanel, BorderLayout.SOUTH);
 
         // Tabela de clientes
         tableModel = new DefaultTableModel(new Object[][] {},
@@ -64,10 +63,10 @@ public class JanelaCadastroFuncionario extends JFrame {
         // Adicionando componentes ao JFrame
         setLayout(new BorderLayout(8, 8));
         add(inputPanel, BorderLayout.NORTH);
-        add(botoes, BorderLayout.CENTER);
+        add(botoesPanel, BorderLayout.CENTER);
         add(jSPane, BorderLayout.SOUTH);
 
-        new FuncionariosDAO().criaTabela();
+        new ClientesDAO().criaTabela();
 
         atualizarTabela();
 
@@ -84,14 +83,20 @@ public class JanelaCadastroFuncionario extends JFrame {
             }
         });
 
-        FuncionariosControl operacoesFuncionarios = new FuncionariosControl(funcionarios, tableModel, table);
+        FuncionariosControl operacoesFuncionarios = new FuncionariosControl(null, tableModel, table);
 
         cadastrar.addActionListener(e -> {
-            operacoesFuncionarios.cadastrar(
-                    funcionarioNomeField.getText(),
-                    funcionarioCpfField.getText(),
-                    funcionarioTelefoneField.getText(),
-                    funcionarioDataNascimentoField.getText());
+            
+                operacoesFuncionarios.cadastrar(
+                        funcionarioNomeField.getText(),
+                        funcionarioCpfField.getText(),
+                        funcionarioTelefoneField.getText(),
+                        funcionarioDataNascimentoField.getText());
+            
+        });
+
+        apagar.addActionListener(e->{
+            operacoesFuncionarios.apagar(funcionarioCpfField.getText());
         });
     }
 
@@ -105,4 +110,8 @@ public class JanelaCadastroFuncionario extends JFrame {
                     funcionario.getdataNascimento(), funcionario.getTelefone() });
         }
     }
+
+    public void setLocationRelativeTo(Object object) {
+    }
+
 }
