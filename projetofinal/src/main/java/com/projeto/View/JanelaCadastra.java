@@ -15,6 +15,7 @@ import com.projeto.Connection.ClientesDAO;
 import com.projeto.Controller.ClientesControl;
 import com.projeto.Model.Cliente;
 
+// Janela responsável pelo cadastro de novos clientes
 public class JanelaCadastra extends JFrame {
     // Atributos
     private JButton cadastrar;
@@ -53,26 +54,36 @@ public class JanelaCadastra extends JFrame {
 
         // Tratamento
 
+        // Inicializa o controlador de operações com clientes
         ClientesControl operacoesClientes = new ClientesControl(clientes, null, null);
 
+        // Ouvinte para o botão "Cadastrar"
         cadastrar.addActionListener(e -> {
+            // Chama o método de cadastro no controlador
             operacoesClientes.cadastrar(
                     clienteNomeField.getText(),
                     clienteCpfField.getText(),
                     clienteTelefoneField.getText(),
                     clienteDataNascimentoField.getText());
-                    cadastroVip();
+            // Exibe uma mensagem de agradecimento e abre a janela de produtos
+            cadastroVip();
         });
     }
-    public void cadastroVip(){
-            dispose();
-            JFrame janela = new JFrame();
-            janela.setSize(500, 500);
-            janela.setVisible(true);
-            janela.setDefaultCloseOperation(2);
-            janela.setLocationRelativeTo(null);
-            janela.add(new JanelaProdutos());
-            JOptionPane.showMessageDialog(null, "Agradecemos pelo cadastro. Boas compras!", "Agradecimento",
-                    JOptionPane.INFORMATION_MESSAGE);
+
+     // Método para exibir a janela de produtos e uma mensagem de agradecimento
+    public void cadastroVip() {
+        // Fecha a janela de cadastro
+        dispose();
+        // Cria uma nova janela
+        JFrame janela = new JFrame();
+        janela.setSize(500, 500);
+        janela.setVisible(true);
+        janela.setDefaultCloseOperation(2);
+        janela.setLocationRelativeTo(null);
+         // Adiciona a janela de produtos à nova janela
+        janela.add(new JanelaProdutos());
+        // Exibe uma mensagem de agradecimento
+        JOptionPane.showMessageDialog(null, "Agradecemos pelo cadastro. Boas compras!", "Agradecimento",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 }

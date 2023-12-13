@@ -16,7 +16,7 @@ import com.projeto.Controller.*;
 import com.projeto.Model.*;
 
 public class JanelaProdutos extends JPanel {
-
+    EstoqueControl control;
     // Componentes
     private JPanel buttonPanel;
     private DefaultTableModel tableModel;
@@ -36,7 +36,6 @@ public class JanelaProdutos extends JPanel {
         title.add(new JLabel("Lista Produtos"));
         add(title);
 
-
         // Painel de botões
         jSPane = new JScrollPane();
         add(jSPane);
@@ -45,7 +44,7 @@ public class JanelaProdutos extends JPanel {
         jSPane.setViewportView(table);
 
         buttonPanel = new JPanel();
-   
+
         add(buttonPanel);
 
         // Criação da tabela no banco de dados
@@ -53,10 +52,8 @@ public class JanelaProdutos extends JPanel {
         // Atualização inicial da tabela
         atualizarTabela();
 
-
         // Instância do controlador
-        EstoqueControl control = new EstoqueControl(produtos, tableModel, table);
-
+        control = new EstoqueControl(produtos, tableModel, table);
 
     }
 
@@ -66,7 +63,7 @@ public class JanelaProdutos extends JPanel {
         produtos = new EstoqueDAO().listarTodos();
         for (Estoque produto : produtos) {
             tableModel.addRow(new Object[] { produto.getId(), produto.getNomeDoProduto(), produto.getPreco(),
-                   });
+            });
         }
     }
 }

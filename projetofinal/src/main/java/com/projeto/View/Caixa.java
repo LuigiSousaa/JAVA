@@ -15,7 +15,9 @@ import com.projeto.Controller.ClientesControl;
 import com.projeto.Model.Cliente;
 import com.projeto.Model.Estoque;
 
+// Classe que representa a interface gráfica do caixa
 public class Caixa extends JPanel {
+    // Componentes da interface gráfica
     private JTextField inputCPF, valorFinal, quantidadeDeItens, inputProduto;
     private JButton compraButton, adicionaProduto, verificaCPF, listaProdutos;
     private JPanel mainPanel, cpfPanel, buttonPanel, produtoPanel, totalPanel;
@@ -33,14 +35,21 @@ public class Caixa extends JPanel {
     private JComboBox<String> metodoPagamentoComboBox;
     private JComboBox<String> clienteComboBox;
 
+     // Construtor da classe
     public Caixa() {
+        // Inicializa os componentes
         inicializarComponentes();
+        // Configura o layout da interface
         configurarLayout();
+        // Atualiza automaticamente os totais
         atualizarTotaisAutomaticamente();
+        // Adiciona os ouvintes de eventos aos botões
         adicionarListeners();
+        // Configura a janela
         configurarJanela();
     }
 
+    // Inicializa os componentes da interface
     private void inicializarComponentes() {
         jSPane = new JScrollPane();
         mainPanel = new JPanel();
@@ -73,10 +82,11 @@ public class Caixa extends JPanel {
         verificaCPF.setForeground(Color.black);
     }
 
+    // Configura o layout da interface
     private void configurarLayout() {
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         clientes = new ClientesDAO().listarTodos();
-
+        cpfPanel.add(metodoPagamentoComboBox);
         cpfPanel.add(verificaCPF);
         cpfPanel.add(inputCPF);
         tableModel = new DefaultTableModel(new Object[][] {},
@@ -102,6 +112,7 @@ public class Caixa extends JPanel {
         add(mainPanel);
     }
 
+    // Adiciona os ouvintes de eventos aos botões
     private void adicionarListeners() {
         adicionaProduto.addActionListener(e -> {
             if (!inputProduto.getText().isEmpty()) {
@@ -114,15 +125,18 @@ public class Caixa extends JPanel {
             }
         });
 
+         // Ouvinte para o botão "Verificação Cliente (CPF)"
         verificaCPF.addActionListener(e -> {
             String cpfText = inputCPF.getText();
             ClientesControl clientesC = new ClientesControl(clientes, tableModel, table);
             clientesC.verificarCPF(cpfText);
         });
 
+        // Ouvinte para o botão "Finalizar Compra"
         compraButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                new VendasDAO().cadastrar("13/12/2023", clienteComboBox.getSelectedItem().toString().trim(),
+                // Registra a venda no banco de dados
+                new VendasDAO().cadastrar("13/12/2023", inputCPF.getText(),
                         String.valueOf(quantidadeTotal), metodoPagamentoComboBox.getSelectedItem().toString().trim(),
                         String.valueOf(valorFinal));
                 JOptionPane.showMessageDialog(null, "Venda realizada!", null, JOptionPane.INFORMATION_MESSAGE);
@@ -132,16 +146,19 @@ public class Caixa extends JPanel {
             }
         });
 
+        // Ouvinte para o botão "Exibir Produtos"
         listaProdutos.addActionListener(e -> {
             listarProdutos();
         });
     }
 
+     // Configura a janela principal
     private void configurarJanela() {
         setVisible(true);
         setSize(800, 550);
     }
 
+    // Atualiza automaticamente os totais com base nos produtos da compra
     private void atualizarTotaisAutomaticamente() {
         quantidadeTotal = 0;
         valorTotal = 0;
@@ -155,6 +172,7 @@ public class Caixa extends JPanel {
         valorFinal.setText(String.format("R$ %.2f", (double) valorTotal / 100));
     }
 
+     // Busca um produto pelo ID e o adiciona à lista de compra
     private void buscarProduto(int id) {
         contProduto = 1;
         produtos = new EstoqueDAO().listarTodos();
@@ -170,6 +188,7 @@ public class Caixa extends JPanel {
                         contProduto = 1;
                     }
                 }
+                // Cria um objeto Estoque com as informações do produto comprado
                 tableModel.addRow(new Object[] { produto.getNomeDoProduto(), contProduto, produto.getPreco() });
 
                 // Ajuste nesta linha
@@ -178,6 +197,7 @@ public class Caixa extends JPanel {
 
                 atualizarTotaisAutomaticamente();
 
+                 // Adiciona o produto à lista de compra
                 listaDeCompra.add(produtoComprado);
                 produtoNaoEncontrado = false;
             }
@@ -189,6 +209,7 @@ public class Caixa extends JPanel {
         atualizarTotaisAutomaticamente();
     }
 
+     // Atualiza a tabela com a lista de compra atual
     public void atualizaTabela() {
         tableModel.setRowCount(0);
         for (Estoque compra : listaDeCompra) {
@@ -197,6 +218,7 @@ public class Caixa extends JPanel {
         }
     }
 
+    // Exibe a lista de produtos em uma janela separada
     public void listarProdutos() {
         int res = JOptionPane.showConfirmDialog(null, "Visualizar a lista de Produtos?",
                 "Mercado", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);

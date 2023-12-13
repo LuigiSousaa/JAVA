@@ -19,6 +19,7 @@ import com.projeto.Connection.ClientesDAO;
 import com.projeto.Controller.ClientesControl;
 import com.projeto.Model.Cliente;
 
+// Janela responsável pelo cadastro e gestão de clientes
 public class JanelaCadastroCliente extends JPanel {
     // Atributos
     private JButton cadastrar, apagar;
