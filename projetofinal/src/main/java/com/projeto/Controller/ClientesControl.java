@@ -7,8 +7,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import com.projeto.Model.*;
-import com.projeto.View.LoginFuncionario;
-import com.projeto.Connection.*;;
+import com.projeto.Connection.*;
 
 public class ClientesControl {
 
@@ -75,6 +74,7 @@ public class ClientesControl {
     public boolean verificarCPF(String cpf) {
         ClientesDAO clientesDAO = new ClientesDAO();
         if (clientesDAO.verificarCPFExistente(cpf)) {
+            JOptionPane.showMessageDialog(null, "DEU GREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN");
             return true;
         } else {
             JOptionPane.showMessageDialog(null, "CPF não encontrado. Por favor, informe um CPF válido.");

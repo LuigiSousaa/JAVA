@@ -26,7 +26,6 @@ public class Caixa extends JPanel {
     private List<Cliente> clientes;
     private List<Estoque> listaDeCompra = new ArrayList<>();
     private JScrollPane jSPane;
-    private boolean isClienteVIP;
     private boolean produtoNaoEncontrado = true;
     private int contProduto = 1;
     private int quantidadeTotal = 0;
@@ -116,7 +115,7 @@ public class Caixa extends JPanel {
         });
 
         verificaCPF.addActionListener(e -> {
-            String cpfText = verificaCPF.getText();
+            String cpfText = inputCPF.getText();
             ClientesControl clientesC = new ClientesControl(clientes, tableModel, table);
             clientesC.verificarCPF(cpfText);
         });
@@ -142,16 +141,6 @@ public class Caixa extends JPanel {
         setVisible(true);
         setSize(800, 550);
     }
-
-    // public boolean validaCpf(String cpf) {
-    //     clientes = new ClientesDAO().listarTodos();
-    //     for (Cliente cliente : clientes) {
-    //         if (cpf.trim().equals(cliente.getCpf())) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
 
     private void atualizarTotaisAutomaticamente() {
         quantidadeTotal = 0;

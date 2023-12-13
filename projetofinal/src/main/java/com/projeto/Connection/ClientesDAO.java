@@ -53,8 +53,8 @@ public class ClientesDAO {
                 // Para cada registro no ResultSet, cria um objeto Carros com os valores do
                 // registro
                 Cliente cliente = new Cliente(
-                        rs.getString("cpf"),
                         rs.getString("nome"),
+                        rs.getString("cpf"),
                         rs.getString("telefone"),
                         rs.getString("idade"));
                 clientes.add(cliente);
