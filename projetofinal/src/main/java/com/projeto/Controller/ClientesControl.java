@@ -54,10 +54,6 @@ public class ClientesControl {
 
     // Método para cadastrar um novo carro no banco de dados
     public void cadastrar(String cpf, String nome, String telefone, String dataNascimento) {
-        // String idade;
-        // if (condition) {
-            
-        // }
         new ClientesDAO().cadastrar(cpf, nome, telefone, dataNascimento);
         // Chama o método de cadastro no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após o cadastro
@@ -79,22 +75,4 @@ public class ClientesControl {
 
     public void limpar(String text, String text2, String text3, String text4) {
     }
-
-     // Método para verificar se o CPF existe
-     public boolean verificarCPF(String cpf) {
-        ClientesDAO clientesDAO = new ClientesDAO();
-        if (clientesDAO.verificarCPFExistente(cpf)) {
-            // Lógica para login bem-sucedido
-            LoginFuncionario loginFuncionario = new LoginFuncionario();
-            loginFuncionario.dispose();
-
-            JOptionPane.showMessageDialog(null, "Seja bem-vindo, portador do CPF: " + cpf);
-            return true;
-        } else {
-            // Lógica para login falhado
-            JOptionPane.showMessageDialog(null, "CPF não encontrado. Por favor, informe um CPF válido.");
-            return false;
-        }
-    }
-
 }

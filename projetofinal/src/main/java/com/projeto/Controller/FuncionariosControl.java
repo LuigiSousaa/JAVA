@@ -60,43 +60,14 @@ public class FuncionariosControl {
         // Chama o método de exclusão no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a exclusão
     }
-
-    public void formatData(String dataNascimento) {
-        // Obtenha a data atual
-        Calendar dataAtual = Calendar.getInstance();
-
-        // Converta a string para um objeto Date
-        Date dataNascimentoDate = null;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            dataNascimentoDate = sdf.parse(dataNascimento);
-        } catch (ParseException e) {
-            System.out.println("Formato de data inválido. Use o formato dd/MM/yyyy.");
-            return; // Encerra o método se a conversão falhar
-        }
-
-        // Calcule a diferença em anos
-        Calendar dataNascimentoCal = Calendar.getInstance();
-        dataNascimentoCal.setTime(dataNascimentoDate);
-
-        int diferencaAnos = dataAtual.get(Calendar.YEAR) - dataNascimentoCal.get(Calendar.YEAR);
-
-        // Verifique se ainda não fez aniversário este ano
-        if (dataAtual.get(Calendar.DAY_OF_YEAR) < dataNascimentoCal.get(Calendar.DAY_OF_YEAR)) {
-            diferencaAnos--;
-        }
-
-        // Armazene o resultado na variável "idade"
-        int idade = diferencaAnos;
-    }
-
-    // Método para verificar se o CPF existe
-    public boolean verificarCPF(String cpf) {
+     // Método para verificar se o CPF existe
+     public boolean verificarCPF(String cpf) {
         FuncionariosDAO funcionariosDAO = new FuncionariosDAO();
         if (funcionariosDAO.verificarCPFExistente(cpf)) {
             // Lógica para login bem-sucedido
             LoginFuncionario loginFuncionario = new LoginFuncionario();
             loginFuncionario.dispose();
+
             JOptionPane.showMessageDialog(null, "Seja bem-vindo, portador do CPF: " + cpf);
             return true;
         } else {

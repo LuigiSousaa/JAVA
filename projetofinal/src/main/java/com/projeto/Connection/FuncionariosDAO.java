@@ -140,7 +140,7 @@ public class FuncionariosDAO {
         ResultSet rs = null;
 
         try {
-            stmt = connection.prepareStatement("SELECT COUNT(*) FROM clientes_mercado WHERE CPF = ?");
+            stmt = connection.prepareStatement("SELECT COUNT(*) FROM funcionarios_mercado WHERE CPF = ?");
             stmt.setString(1, cpf);
             rs = stmt.executeQuery();
 

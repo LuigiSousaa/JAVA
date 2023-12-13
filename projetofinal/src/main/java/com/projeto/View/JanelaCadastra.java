@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.List;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,10 +17,9 @@ import com.projeto.Model.Cliente;
 
 public class JanelaCadastra extends JFrame {
     // Atributos
-    private JButton cadastrar, limpar;
+    private JButton cadastrar;
     private JTextField clienteNomeField, clienteCpfField, clienteTelefoneField, clienteDataNascimentoField;
     private List<Cliente> clientes;
-    private JanelaProdutos produtos;
 
     // Construtor
     public JanelaCadastra() {
@@ -44,9 +42,7 @@ public class JanelaCadastra extends JFrame {
 
         JPanel botoes = new JPanel();
         cadastrar = new JButton("Cadastrar");
-        limpar = new JButton("Limpar");
         botoes.add(cadastrar);
-        botoes.add(limpar);
 
         // Adicionando componentes ao JFrame
         setLayout(new BorderLayout(8, 8));
@@ -65,14 +61,18 @@ public class JanelaCadastra extends JFrame {
                     clienteCpfField.getText(),
                     clienteTelefoneField.getText(),
                     clienteDataNascimentoField.getText());
+                    cadastroVip();
+        });
+    }
+    public void cadastroVip(){
             dispose();
+            JFrame janela = new JFrame();
+            janela.setSize(500, 500);
+            janela.setVisible(true);
+            janela.setDefaultCloseOperation(2);
+            janela.setLocationRelativeTo(null);
+            janela.add(new JanelaProdutos());
             JOptionPane.showMessageDialog(null, "Agradecemos pelo cadastro. Boas compras!", "Agradecimento",
                     JOptionPane.INFORMATION_MESSAGE);
-                    JFrame janela = new JFrame();
-                    janela.setVisible(true);
-                    janela.setDefaultCloseOperation(2);
-                    janela.setLocationRelativeTo(null);
-                    janela.add(new JanelaProdutos());
-        });
     }
 }

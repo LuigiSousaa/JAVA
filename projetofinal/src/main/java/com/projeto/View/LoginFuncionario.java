@@ -4,16 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 
 import com.projeto.Connection.FuncionariosDAO;
-import com.projeto.Controller.ClientesControl;
+import com.projeto.Controller.FuncionariosControl;
 
 public class LoginFuncionario extends JFrame {
     private JTextField cpfTextField;
-    private ClientesControl funcionariosControl; // Adiciona a referência a ClientesControl
+    private FuncionariosControl funcionariosControl; // Adiciona a referência a ClientesControl
 
     public LoginFuncionario() {
         // Configuração da janela
-        setTitle("Login do Cliente");
-        setSize(300, 150);
+        setTitle("Login do funcionário");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -22,7 +21,7 @@ public class LoginFuncionario extends JFrame {
         funcDAO.criaTabela();
 
         // Cria uma instância de ClientesControl
-        funcionariosControl = new ClientesControl(null, null, null);
+        funcionariosControl = new FuncionariosControl(null, null, null);
 
         // Layout e componentes
         JPanel panel = new JPanel(new GridBagLayout());
