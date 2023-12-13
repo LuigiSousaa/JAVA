@@ -36,7 +36,7 @@ public class FuncionariosControl {
     }
 
     // Método para cadastrar um novo carro no banco de dados
-    public void cadastrar(String cpf, String nome, String telefone, String idade) {
+    public void cadastrar(String nome, String cpf, String telefone, String idade) {
         new FuncionariosDAO().cadastrar(nome, cpf, telefone, idade);
         // Chama o método de cadastro no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após o cadastro

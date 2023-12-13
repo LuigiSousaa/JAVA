@@ -52,15 +52,15 @@ public class ClientesControl {
     }
 
     // Método para cadastrar um novo carro no banco de dados
-    public void cadastrar(String cpf, String nome, String telefone, String dataNascimento) {
-        new ClientesDAO().cadastrar(cpf, nome, telefone, dataNascimento);
+    public void cadastrar(String nome, String cpf, String telefone, String dataNascimento) {
+        new ClientesDAO().cadastrar(nome, cpf, telefone, dataNascimento);
         // Chama o método de cadastro no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após o cadastro
     }
 
     // Método para atualizar os dados de um carro no banco de dados
-    public void atualizar(String cpf, String nome, String telefone, String dataNascimento) {
-        new ClientesDAO().atualizar(cpf, nome, telefone, dataNascimento);
+    public void atualizar(String nome, String cpf, String telefone, String dataNascimento) {
+        new ClientesDAO().atualizar(nome, cpf, telefone, dataNascimento);
         // Chama o método de atualização no banco de dados
         atualizarTabela(); // Atualiza a tabela de exibição após a atualização
     }
